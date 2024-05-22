@@ -1,0 +1,1 @@
+fd -p 'websites/ethernodes.org/\d+/network/1/index.html' | xargs -I{} bash -c 'FILENAME="{}"; htmlq ".col-sm-9 .row .col-sm-4:first-child canvas" --attribute "data-value" -f $FILENAME | echo $FILENAME"	"$(jq -c "map({key: .label, value: .value}) | from_entries")' | jq -R 'split("\t") | {key: .[0] | split("/")[3], value: .[1] | fromjson}' | jq -s 'from_entries' > 'network_1.json'

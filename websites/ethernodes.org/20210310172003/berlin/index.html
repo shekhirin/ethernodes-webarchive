@@ -1,0 +1,319 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Berlin Upgrade Countdown &amp; Node Tracker - ethernodes.org - The Ethereum Network &amp; Node Explorer</title><link rel="stylesheet" href="/stylesheets/toolkit-inverse.min.css"><link rel="stylesheet" href="/stylesheets/style.css"><style>[v-cloak] {
+    display: none;
+}
+
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+</style></head><body style="padding-top: 10px"><div class="container"><nav class="navbar navbar-expand-lg navbar-dark"><a class="navbar-brand" href="/"><span class="icon icon-flow-tree"> ethernodes.org</span></a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/">Home</a></li><li class="nav-item"><a class="nav-link" href="/nodes">Browse</a></li><li class="nav-item active"><a class="nav-link" href="/berlin">Berlin</a></li><li class="nav-item"><a class="nav-link" href="https://wolf.bet/?c=ethernodes&amp;utm_source=ethernodes&amp;utm_medium=button&amp;utm_campaign=1"><img style="width: auto; height: 1rem; margin-bottom: .3rem; margin-right: .3rem;" src="/images/dice.svg"><span style="color: #1997c6;">Play & Win</span></a></li></ul><form class="form-inline my-2 my-lg-0" action="/search" method="POST"><input class="form-control mr-sm-2" placeholder="Search node by IP or public key" type="text" data-toggle="tooltip" data-placement="top" id="search" name="search"><button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><span class="icon icon-magnifying-glass"></span></button></form></div></nav></div><div class="container"><div class="text-center" id="codefund"></div><script src="https://codefund.app/properties/303/funder.js" async="async"></script></div><div class="container"><div class="col-sm-12 content"><div id="app" v-cloak><h1 class="text-center mt-4">Ethereum Berlin Upgrade Countdown</h1><div v-if="12244000 - bestBlock &gt; 0"><p class="lead text-center">The Berlin upgrade block 12,244,000 is scheduled to occur on &nbsp;<u v-bind:title="'Based on an average block time of ' + blockTime + 's'" data-toggle="tooltip" data-placement="top">{{forkTs | formatForkTs}}</u> which is in</p><h2 class="text-center" id="timer">{{forkTs | timeToFork}}</h2><h4 class="text-center">{{ bestBlock | formatBlock }} / 12,244,000 | {{ 12244000 - bestBlock | formatBlock }} blocks to go</h4></div><div v-else><h2 class="text-center mt-4">🎉 🎉 The upgrade is now live on the Ethereum Mainnet 🎉 🎉</h2></div><p class="lead mt-5">Live client status</p><div class="table-responsive"><table class="table"><thead><tr><th>Client</th><th>Version</th><th>Status</th><th>Block Number</th><th>Block Hash</th><th>Total Difficulty</th><th>Last Block</th></tr></thead><tbody><tr v-for="(value, name) in clients"><td>{{ name }}</td><td>{{ value.version ? value.version : '-' }}</td><td v-if="value.status"><span class="badge badge-success">In Sync</span></td><td v-else="value.status"><span class="badge badge-danger">Syncing</span></td><td><transition name="slide-fade" mode="out-in"><span v-bind:key="value.block.number">{{ value.block.number }}</span></transition></td><td><transition name="slide-fade" mode="out-in"><a v-bind:href="'https://etherchain.org/block/'+ value.block.hash" v-bind:key="value.block.hash">{{value.block.hash | subStr}}</a></transition></td><td><transition name="slide-fade" mode="out-in"><span v-bind:key="value.totalDifficultyPercentage">{{ value.block.totalDifficulty | formatTotalDifficulty }} ({{value.totalDifficultyPercentage}}%)</span></transition></td><td style="width: 150px;"><transition name="slide-fade" mode="out-in"><span v-bind:key="value.block.timestamp | fromNow">{{ value.block.timestamp | fromNow }}</span></transition></td></tr></tbody></table></div><small class="float-right"> Next update in {{updateIn}}s</small><p class="lead mt-5">Berlin ready &&nbsp;<u><span title="We determine sync status by comparing the best block of a node to the current best block of the chain. If the nodes best block is less than 10 blocks behind the main chain we consider this node as synced." data-toggle="tooltip" data-placement="top">synced</span></u> clients seen on the Ethereum network (last 24h)</p><div class="row"><div class="col-md-6"><div class="table-responsive"><table class="table"><thead><tr><th>Client</th><th>Ready</th><th>Not-Ready</th></tr></thead><tbody><tr><td>geth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Geth versions 1.10.1 and higher are compatible with the Berlin network upgrade"></span></td><td>79 (4%)</td><td>1913 (96%)</td></tr><tr><td>openethereum &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="OpenEthereum versions 3.2.0 and higher are compatible with the Berlin network upgrade"></span></td><td>8 (3%)</td><td>284 (97%)</td></tr><tr><td>parity-ethereum &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>181 (100%)</td></tr><tr><td>nethermind &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Nethermind versions 1.10.31 and higher are compatible with the Berlin network upgrade"></span></td><td>4 (8%)</td><td>45 (92%)</td></tr><tr><td>besu &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Besu versions 21.1.1 and higher are compatible with the Berlin network upgrade"></span></td><td>4 (27%)</td><td>11 (73%)</td></tr><tr><td>teth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>5 (100%)</td></tr><tr><td>coregeth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>4 (100%)</td></tr><tr><td>multigeth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>3 (100%)</td></tr><tr><td>turbo-geth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>2 (100%)</td></tr><tr><td>mainnet &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>1 (100%)</td></tr><tr><td>Total &nbsp;</td><td>95 (4%)</td><td>2449 (96%)</td></tr></tbody></table></div></div><div class="col-md-6"><div id="chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div></div></div><div class="row"><div class="col-md-12"><div class="hr-divider"><ul class="nav nav-pills hr-divider-content hr-divider-nav" id="pills-tab" role="tablist"><li class="nav-item"><a class="nav-link active" id="pills-absolute-tab" data-toggle="pill" href="#pills-absolute" role="tab" aria-controls="pills-absolute" aria-selected="true">Absolute</a></li><li class="nav-item"><a class="nav-link" id="pills-relative-tab" data-toggle="pill" href="#pills-relative" role="tab" aria-controls="pills-relative" aria-selected="false">Relative</a></li></ul></div><div class="tab-content" id="pills-tabContent"><div class="tab-pane fade show active" id="pills-absolute" role="tabpanel" aria-labelledby="pills-absolute-tab"><div id="historyChart" style="height: 400px; margin: 0 auto"></div></div><div class="tab-pane fade" id="pills-relative" role="tabpanel" aria-labelledby="pills-relative-tab"><div id="historyRelChart" style="height: 400px; margin: 0 auto"></div></div></div></div></div><div class="row"><div class="col-md-12"></div></div><div class="row"><div class="col-md-6"><h2 class="mt-5">Exchanges</h2><p class="lead"></p><div class="table-responsive"><table class="table"><thead><tr><th>Exchange</th><th>Status</th></tr></thead><tbody><tr><td><a href="https://www.binance.com/">Binance</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.coinbase.com/">Coinbase</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.kraken.com/">Kraken</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.bithumb.com/">Bithumb</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.hbg.com/">Huobi
+</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.poloniex.com/">Poloniex</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://gemini.com/">Gemini</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.bitfinex.com/">Bitfinex
+</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://international.bittrex.com/">Bittrex</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://bitso.com/">Bitso</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr></tbody></table></div></div><div class="col-md-6"><h2 class="mt-5">Infrastructure Providers</h2><p class="lead"></p><div class="table-responsive"><table class="table"><thead><tr><th>Infrastructure Provider</th><th>Status</th></tr></thead><tbody><tr><td><a href="https://www.etherchain.org/">Etherchain</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.infura.io/">Infura</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.etherscan.io/">Etherscan</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://mycrypto.com/">MyCrypto</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://myetherwallet.com/">MyEtherWallet</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://metamask.io/">MetaMask</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://aleth.io/">Alethio</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://blockscout.com/eth/mainnet/">Blockscout</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://quiknode.io/">QuickNode</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://chainstack.com/">Chainstack</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr></tbody></table></div></div><div class="col-md-6"><h2 class="mt-5">Mining Pools</h2><p class="lead"></p><div class="table-responsive"><table class="table"><thead><tr><th>Mining Pool</th><th>Status</th></tr></thead><tbody><tr><td><a href="https://ethermine.org">Ethermine</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.sparkpool.com/">Sparkpool</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.f2pool.com/">F2pool</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.nanopool.org/">Nanopool</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://pool.zhizhu.top/">Zhizhu</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://ethereum.miningpoolhub.com/">MiningPoolHub</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr></tbody></table></div></div><div class="col-md-6 mt-5"><h2>FAQ</h2><h4>Where is the official announcement of the upgrade?</h4><p>No official announcement has been made up to now.</p><h4>Which upgrades are included?</h4><p>For a complete list of EIPs included in the upgrade see the &nbsp;<a href="https://blog.ethereum.org/2021/03/08/ethereum-berlin-upgrade-announcement/">Official Upgrade Announcement</a>.</p><h4>Which action do I need to take?</h4><p>If you are running an Ethereum client (for example Geth, Openethereum, Besu, or Nethermind) please update it to the latest version.</p><h4>I would like to update the status of a mining pool, infrastructure provider or exchange displayed on the site</h4><p>Simply send us a mail to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b7d8d1d1ded4d2f7d5dec3d1dbce99d6c3">[email&#160;protected]</a> which includes the information you would like to have updated. If possible please also include a link to the public announcement of the service.</p></div></div></div></div></div><div class="container text-center"><div class="col-sm-12 content"><hr><footer><p>© bitfly gmbh 2021 | ethernodes.org - The Ethereum Network &amp; Node Explorer |&nbsp;<a href="https://www.reddit.com/u/etherchain">Contact us&nbsp;</a>| &nbsp;<a href="/donate">Donate&nbsp;</a>| &nbsp;<a href="/imprint">Imprint</a></p><p>Note: Proper source attribution is required if the charts or the underlying data is used outside of this page.</p></footer></div></div><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-71985403-1', 'auto');
+ga('send', 'pageview');
+</script><script src="https://code.jquery.com/jquery-3.3.1.min.js" type="text/javascript"></script><script src="/javascripts/popper.min.js" type="text/javascript"></script><script src="/javascripts/toolkit.min.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vue"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script><script>var app = new Vue({
+  el: '#app',
+  data: {
+    clients: {"infura":{"version":"geth-1.9.25","block":{"hash":"0x92b66ebc65d4f7a1605bb3505a6d9745a85830bfafb9f65e52ded2f280019048","timestamp":1615396697,"number":12012097,"difficulty":"5464821962473386","totalDifficulty":"2.1899549395114413905493e+22"},"status":1,"totalDifficultyPercentage":"100.0"}},
+    updateIn: -1,
+    forkTs: 1618643368293,
+    blockTime: 14,
+    bestBlock: 12012096
+  },
+  filters: {
+    subStr: function (string) {
+      return string.substring(0, 12) + '...';
+    },
+    formatTotalDifficulty: function (td) {
+      return numeral(td).format('0.00e+0').toUpperCase();
+    },
+    formatBlock: function (block) {
+      return numeral(block).format('0,0');
+    },
+    fromNow: function (ts) {
+      return moment(ts * 1000).fromNow();
+    },
+    formatForkTs: function (ts) {
+      return moment(ts).format("llll");
+    },
+    timeToFork: function (ts) {
+      var distance = moment.duration(moment(ts).diff(moment())).asMilliseconds();
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      return days + " day" + (days === 1 ? " " : "s ") + hours + " hour" + (hours === 1 ? " " : "s ") +
+        +minutes + " minute" + (minutes === 1 ? " " : "s ") + " and " + seconds + " second" + (seconds === 1 ? "" : "s");
+    }
+  },
+  created: function () {
+    this.tick();
+    setInterval(function () {
+      this.tick();
+    }.bind(this), 1000);
+
+    setInterval(function () {
+      this.updateCodefund();
+    }.bind(this), 60000);
+
+  },
+  methods: {
+    tick: function () {
+      if (this.updateIn <= 0) {
+        $.getJSON('/berlin/live', function (response) {
+          this.clients = response.clientStatus;
+          this.forkTs = response.forkTs;
+          this.blockTime = response.blockTime;
+          this.bestBlock = response.bestBlock;
+
+        }.bind(this));
+        this.updateIn = 15;
+      } else {
+        this.updateIn--;
+      }
+    },
+    updateCodefund: function () {
+      if (typeof document.hidden !== "undefined" && !document.hidden) {
+        $.get('https://api.codefund.app/properties/303/funder.html', function (response) {
+          document.getElementById("codefund").innerHTML = response;
+        });
+      }
+    }
+  }
+})</script><script src="https://code.highcharts.com/highcharts.js"></script><script src="https://code.highcharts.com/modules/drilldown.js"></script><script type="text/javascript">var pieChartDataRaw = [{"name":"geth","ready":79,"notReady":1913,"info":"Geth versions 1.10.1 and higher are compatible with the Berlin network upgrade","total":1992},{"name":"openethereum","ready":8,"notReady":284,"info":"OpenEthereum versions 3.2.0 and higher are compatible with the Berlin network upgrade","total":292},{"name":"parity-ethereum","ready":0,"notReady":181,"info":"No Berlin ready version of this client has been released up to now","total":181},{"name":"nethermind","ready":4,"notReady":45,"info":"Nethermind versions 1.10.31 and higher are compatible with the Berlin network upgrade","total":49},{"name":"besu","ready":4,"notReady":11,"info":"Besu versions 21.1.1 and higher are compatible with the Berlin network upgrade","total":15},{"name":"teth","ready":0,"notReady":5,"info":"No Berlin ready version of this client has been released up to now","total":5},{"name":"coregeth","ready":0,"notReady":4,"info":"No Berlin ready version of this client has been released up to now","total":4},{"name":"multigeth","ready":0,"notReady":3,"info":"No Berlin ready version of this client has been released up to now","total":3},{"name":"turbo-geth","ready":0,"notReady":2,"info":"No Berlin ready version of this client has been released up to now","total":2},{"name":"mainnet","ready":0,"notReady":1,"info":"No Berlin ready version of this client has been released up to now","total":1},{"name":"Total","ready":95,"notReady":2449,"total":2544}]
+var pieChartData = [];
+pieChartData.push({
+  y: pieChartDataRaw[pieChartDataRaw.length - 1].ready,
+  color: "#18b37e",
+  name: "Ready",
+  drilldown: "ready"
+})
+pieChartData.push({
+  y: pieChartDataRaw[pieChartDataRaw.length - 1].notReady,
+  color: "#e64759",
+  name: "Not Ready",
+  drilldown: "notready",
+  title: {text: "abc"}
+})
+
+var colors = ["#1997c6", "#18b37e", "#8b6cff", "#e1d420", "#e33145", "#51586a"];
+
+var drillDownReady = {
+  colorByPoint: true,
+  borderColor: '#252830',
+  name: "Upgrade Ready Clients",
+  id: "ready",
+  data: []
+}
+var drillDownNotReady = {
+  colorByPoint: true,
+  borderColor: '#252830',
+  name: "Not Upgrade Ready Clients",
+  id: "notready",
+  data: []
+}
+
+pieChartDataRaw.forEach(function (item) {
+  if (item.name !== "Total") {
+    drillDownReady.data.push({
+      y: item.ready,
+      color: colors[drillDownReady.data.length % colors.length],
+      name: item.name
+    })
+    drillDownNotReady.data.push({
+      y: item.notReady,
+      color: colors[drillDownNotReady.data.length % colors.length],
+      name: item.name
+    })
+  }
+})
+
+var chart = Highcharts.chart("chart", {
+  chart: {
+    backgroundColor: 'transparent',
+    type: 'pie',
+    animation: false,
+    events: {
+      drilldown: function (e) {
+        console.log(e)
+        chart.setTitle({text: e.seriesOptions.name});
+      },
+      drillup: function (e) {
+        chart.setTitle({text: "Berlin readiness client distribution"});
+      }
+    }
+  },
+  credits: {
+    href: "https://ethernodes.org",
+    text: "Chart provided by ethernodes.org"
+  },
+  title: {
+    text: 'Berlin ready client distribution',
+    style: {
+      color: "rgb(207, 210, 218)"
+    }
+  },
+  tooltip: {
+    pointFormat: '<b>{point.y} ({point.percentage:.1f}%)</b>'
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: true,
+        format: '{point.name}: {point.y} ({point.percentage:.1f}%)',
+        style: {
+          textOutline: '0px',
+          color: 'rgb(255, 255, 255)',
+          fontWeight: 'normal'
+        }
+      }
+    }
+  },
+  series: [{
+    name: 'Berlin Upgrade Status',
+    colorByPoint: true,
+    borderColor: '#252830',
+    data: pieChartData,
+    animation: false
+  }],
+  drilldown: {
+    activeDataLabelStyle: {
+      color: "#106382"
+    },
+    series: [
+      drillDownReady,
+      drillDownNotReady
+    ]
+  }
+});
+
+var historyDataAbs = [{"name":"geth","color":"#1997c6","data":[[1615393838000,79],[1615390238000,71],[1615386637000,63],[1615383036000,40],[1615379436000,22],[1615378881000,14]]},{"name":"openethereum","color":"#18b37e","data":[[1615393838000,8],[1615390238000,8],[1615386637000,8],[1615383036000,6],[1615379436000,1]]},{"name":"nethermind","color":"#8b6cff","data":[[1615393838000,4],[1615390238000,4],[1615386637000,4],[1615383036000,4],[1615379436000,4]]},{"name":"besu","color":"#e1d420","data":[[1615393838000,4],[1615390238000,4],[1615386637000,4],[1615383036000,4],[1615379436000,4]]}]
+if (historyDataAbs) {
+  Highcharts.chart("historyChart", {
+    chart: {
+      backgroundColor: 'transparent',
+      zoomType: 'x',
+      animation: false,
+      type: 'area'
+    },
+    credits: {
+      href: "https://ethernodes.org",
+      text: "Chart provided by ethernodes.org"
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime',
+      tickInterval: 3600 * 1000
+    },
+    yAxis: {
+      title: {
+        text: 'Update ready node count'
+      }
+    },
+    legend: {
+      enabled: true,
+      itemStyle: {
+        color: "rgb(207, 210, 218)"
+      }
+    },
+    tooltip: {
+      xDateFormat: '%Y-%m-%d %H:%M',
+    },
+    plotOptions: {
+      area: {
+        stacking: 'normal',
+        lineColor: '#666666',
+        lineWidth: 1,
+        marker: {
+          lineWidth: 1,
+          lineColor: '#666666'
+        }
+      }
+    },
+    series: historyDataAbs
+  });
+}
+
+var historyDataRel = [{"name":"Not Ready","color":"#1997c6","data":[[1615378881000,2597],[1615379436000,2583],[1615383036000,2552],[1615386637000,2519],[1615390238000,2497],[1615393838000,2449]]},{"name":"Ready","color":"#18b37e","data":[[1615378881000,14],[1615379436000,31],[1615383036000,54],[1615386637000,79],[1615390238000,87],[1615393838000,95]]}]
+
+if (historyDataRel) {
+  Highcharts.chart("historyRelChart", {
+    chart: {
+      backgroundColor: 'transparent',
+      zoomType: 'x',
+      animation: false,
+      type: 'area'
+    },
+    credits: {
+      href: "https://ethernodes.org",
+      text: "Chart provided by ethernodes.org"
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime',
+      tickInterval: 3600 * 1000
+    },
+    yAxis: {
+      title: {
+        text: '%'
+      }
+    },
+    legend: {
+      enabled: true,
+      itemStyle: {
+        color: "rgb(207, 210, 218)"
+      }
+    },
+    tooltip: {
+      xDateFormat: '%Y-%m-%d %H:%M',
+      pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b> ({point.percentage:.1f}%)<br/>'
+    },
+    plotOptions: {
+      area: {
+        stacking: 'percent',
+        lineColor: '#666666',
+        lineWidth: 1,
+        marker: {
+          lineWidth: 1,
+          lineColor: '#666666'
+        }
+      }
+    },
+    series: historyDataRel
+  });
+}</script><script>let anchor = window.location.hash;
+
+if (anchor) {
+    anchor = anchor.replace("#", "")
+    window.location = "/" + anchor
+}
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})</script></body></html>

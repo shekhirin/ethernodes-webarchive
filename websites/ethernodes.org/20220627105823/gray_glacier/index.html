@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gray Glacier Upgrade Countdown &amp; Node Tracker - ethernodes.org - The Ethereum Network &amp; Node Explorer</title><link rel="stylesheet" href="/stylesheets/toolkit-inverse.min.css"><link rel="stylesheet" href="/stylesheets/style.css"><style>[v-cloak] {
+    display: none;
+}
+
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+</style></head><body style="padding-top: 10px"><div class="container"><nav class="navbar navbar-expand-lg navbar-dark"><a class="navbar-brand" href="/"><span class="icon icon-flow-tree"> ethernodes.org</span></a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/">Home</a></li><li class="nav-item"><a class="nav-link" href="/nodes">Browse</a></li><li class="nav-item active"><a class="nav-link" href="/gray_glacier">Gray Glacier</a></li></ul><form class="form-inline my-2 my-lg-0" action="/search" method="POST"><input class="form-control mr-sm-2" placeholder="Search node by IP or public key" type="text" data-toggle="tooltip" data-placement="top" id="search" name="search"><button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><span class="icon icon-magnifying-glass"></span></button></form></div></nav></div><div class="container"><div class="col-sm-12 content"><div id="app" v-cloak><h1 class="text-center mt-4">Ethereum Gray Glacier Upgrade Countdown</h1><div v-if="15050000 - bestBlock &gt; 0"><p class="lead text-center">The Gray Glacier upgrade block 15,050,000 is scheduled to occur on &nbsp;<u v-bind:title="'Based on an average block time of ' + blockTime + 's'" data-toggle="tooltip" data-placement="top">{{forkTs | formatForkTs}}</u> which is in</p><h2 class="text-center" id="timer">{{forkTs | timeToFork}}</h2><h4 class="text-center">{{ bestBlock | formatBlock }} / 15,050,000 | {{ 15050000 - bestBlock | formatBlock }} blocks to go</h4></div><div v-else><h2 class="text-center mt-4">🎉 🎉 The upgrade is now live on the Ethereum Mainnet 🎉 🎉</h2></div><p class="lead mt-5">Live client status</p><div class="table-responsive"><table class="table"><thead><tr><th>Client</th><th>Version</th><th>Status</th><th>Block Number</th><th>Block Hash</th><th>Total Difficulty</th><th>Last Block</th></tr></thead><tbody><tr v-for="(value, name) in clients"><td>{{ name }}</td><td>{{ value.version ? value.version : '-' }}</td><td v-if="value.status"><span class="badge badge-success">In Sync</span></td><td v-else="value.status"><span class="badge badge-danger">Syncing</span></td><td><transition name="slide-fade" mode="out-in"><span v-bind:key="value.block.number">{{ value.block.number }}</span></transition></td><td><transition name="slide-fade" mode="out-in"><a v-bind:href="'https://etherchain.org/block/'+ value.block.hash" v-bind:key="value.block.hash">{{value.block.hash | subStr}}</a></transition></td><td><transition name="slide-fade" mode="out-in"><span v-bind:key="value.totalDifficultyPercentage">{{ value.block.totalDifficulty | formatTotalDifficulty }} ({{value.totalDifficultyPercentage}}%)</span></transition></td><td style="width: 150px;"><transition name="slide-fade" mode="out-in"><span v-bind:key="value.block.timestamp | fromNow">{{ value.block.timestamp | fromNow }}</span></transition></td></tr></tbody></table></div><small class="float-right"> Next update in {{updateIn}}s</small><p class="lead mt-5">Gray Glacier ready &&nbsp;<u><span title="We determine sync status by comparing the best block of a node to the current best block of the chain. If the nodes best block is less than 10 blocks behind the main chain we consider this node as synced." data-toggle="tooltip" data-placement="top">synced</span></u> clients seen on the Ethereum network (last 24h)</p><div class="row"><div class="col-md-6"><div class="table-responsive"><table class="table"><thead><tr><th>Client</th><th>Ready</th><th>Not-Ready</th></tr></thead><tbody><tr><td>geth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Geth versions 1.10.19 and higher are compatible with the Gray Glacier network upgrade"></span></td><td>853 (58%)</td><td>614 (42%)</td></tr><tr><td>erigon &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Erigon versions 2022.06.03-alpha and higher are compatible with the Gray Glacier network upgrade"></span></td><td>148 (100%)</td><td>0 (0%)</td></tr><tr><td>openethereum &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Gray Glacier ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>133 (100%)</td></tr><tr><td>nethermind &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Nethermind versions 1.13.3 and higher are compatible with the Gray Glacier network upgrade"></span></td><td>41 (62%)</td><td>25 (38%)</td></tr><tr><td>besu &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Besu versions 22.4.3 and higher are compatible with the Gray Glacier network upgrade"></span></td><td>21 (84%)</td><td>4 (16%)</td></tr><tr><td>trippynode &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Gray Glacier ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>12 (100%)</td></tr><tr><td>neonnode &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Gray Glacier ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>3 (100%)</td></tr><tr><td>bitcoind &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Gray Glacier ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>2 (100%)</td></tr><tr><td>teth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Gray Glacier ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>2 (100%)</td></tr><tr><td>Total &nbsp;</td><td>1063 (57%)</td><td>795 (43%)</td></tr></tbody></table></div></div><div class="col-md-6"><div id="chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div></div></div><div class="row"><div class="col-md-12"><div class="hr-divider"><ul class="nav nav-pills hr-divider-content hr-divider-nav" id="pills-tab" role="tablist"><li class="nav-item"><a class="nav-link active" id="pills-absolute-tab" data-toggle="pill" href="#pills-absolute" role="tab" aria-controls="pills-absolute" aria-selected="true">Absolute</a></li><li class="nav-item"><a class="nav-link" id="pills-relative-tab" data-toggle="pill" href="#pills-relative" role="tab" aria-controls="pills-relative" aria-selected="false">Relative</a></li></ul></div><div class="tab-content" id="pills-tabContent"><div class="tab-pane fade show active" id="pills-absolute" role="tabpanel" aria-labelledby="pills-absolute-tab"><div id="historyChart" style="height: 400px; margin: 0 auto"></div></div><div class="tab-pane fade" id="pills-relative" role="tabpanel" aria-labelledby="pills-relative-tab"><div id="historyRelChart" style="height: 400px; margin: 0 auto"></div></div></div></div></div><div class="row"><div class="col-md-12"></div></div><div class="row"><div class="col-md-6 mt-5"><h2>FAQ</h2><h4>Where is the official announcement of the upgrade?</h4><p>See the&nbsp;<a href="https://blog.ethereum.org/2022/06/16/gray-glacier-announcement/">Upgrade announcement</a>.</p><h4>Which upgrades are included?</h4><p>For a complete list of EIPs included in the upgrade see the&nbsp;<a href="https://blog.ethereum.org/2022/06/16/gray-glacier-announcement/">Upgrade announcement</a>.</p><h4>Which action do I need to take?</h4><p>If you are running an Ethereum client (for example Geth, Besu, Nethermind or Erigon) please update it to the latest version.</p></div></div></div></div></div><div class="container text-center"><div class="col-sm-12 content"><hr><footer><p>© bitfly gmbh 2022 | ethernodes.org - The Ethereum Network &amp; Node Explorer |&nbsp;<a href="https://www.reddit.com/u/etherchain">Contact us&nbsp;</a>| &nbsp;<a href="/donate">Donate&nbsp;</a>| &nbsp;<a href="/imprint">Imprint</a></p><p>Note: Proper source attribution is required if the charts or the underlying data is used outside of this page.</p></footer></div></div><script type="be691b48fc5e4588284dc3b9-text/javascript">(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-71985403-1', 'auto');
+ga('send', 'pageview');
+</script><script src="https://code.jquery.com/jquery-3.3.1.min.js" type="be691b48fc5e4588284dc3b9-text/javascript"></script><script src="/javascripts/popper.min.js" type="be691b48fc5e4588284dc3b9-text/javascript"></script><script src="/javascripts/toolkit.min.js" type="be691b48fc5e4588284dc3b9-text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vue@2.6.14" type="be691b48fc5e4588284dc3b9-text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" type="be691b48fc5e4588284dc3b9-text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js" type="be691b48fc5e4588284dc3b9-text/javascript"></script><script type="be691b48fc5e4588284dc3b9-text/javascript">var app = new Vue({
+  el: '#app',
+  data: {
+    clients: {"infura":{"version":"geth-1.10.19","block":{"hash":"0x76dc91ac3b8aaf73792c87c5c7456c7d4016d219b39c5aa4aca542f0b7dd665a","timestamp":1656327221,"number":15034004,"difficulty":"14570033637467382","totalDifficulty":"5.2696622624284567667573e+22"},"status":1,"totalDifficultyPercentage":"100.0"}},
+    updateIn: -1,
+    forkTs: 1656546211162.7095,
+    blockTime: 13.68842265,
+    bestBlock: 15034004
+  },
+  filters: {
+    subStr: function (string) {
+      return string.substring(0, 12) + '...';
+    },
+    formatTotalDifficulty: function (td) {
+      return numeral(td).format('0.00e+0').toUpperCase();
+    },
+    formatBlock: function (block) {
+      return numeral(block).format('0,0');
+    },
+    fromNow: function (ts) {
+      return moment(ts * 1000).fromNow();
+    },
+    formatForkTs: function (ts) {
+      return moment(ts).format("llll");
+    },
+    timeToFork: function (ts) {
+      var distance = moment.duration(moment(ts).diff(moment())).asMilliseconds();
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      return days + " day" + (days === 1 ? " " : "s ") + hours + " hour" + (hours === 1 ? " " : "s ") +
+        +minutes + " minute" + (minutes === 1 ? " " : "s ") + " and " + seconds + " second" + (seconds === 1 ? "" : "s");
+    }
+  },
+  created: function () {
+    this.tick();
+    setInterval(function () {
+      this.tick();
+    }.bind(this), 1000);
+
+    setInterval(function () {
+      this.updateCodefund();
+    }.bind(this), 60000);
+
+  },
+  methods: {
+    tick: function () {
+      if (this.updateIn <= 0) {
+        $.getJSON('/gray_glacier/live', function (response) {
+          this.clients = response.clientStatus;
+          this.forkTs = response.forkTs;
+          this.blockTime = response.blockTime;
+          this.bestBlock = response.bestBlock;
+
+        }.bind(this));
+        this.updateIn = 15;
+      } else {
+        this.updateIn--;
+      }
+    },
+    updateCodefund: function () {
+      if (typeof document.hidden !== "undefined" && !document.hidden) {
+        $.get('https://api.codefund.app/properties/303/funder.html', function (response) {
+          document.getElementById("codefund").innerHTML = response;
+        });
+      }
+    }
+  }
+})</script><script src="https://code.highcharts.com/highcharts.js" type="be691b48fc5e4588284dc3b9-text/javascript"></script><script src="https://code.highcharts.com/modules/drilldown.js" type="be691b48fc5e4588284dc3b9-text/javascript"></script><script type="be691b48fc5e4588284dc3b9-text/javascript">var pieChartDataRaw = [{"name":"geth","ready":853,"notReady":614,"info":"Geth versions 1.10.19 and higher are compatible with the Gray Glacier network upgrade","total":1467},{"name":"erigon","ready":148,"notReady":0,"info":"Erigon versions 2022.06.03-alpha and higher are compatible with the Gray Glacier network upgrade","total":148},{"name":"openethereum","ready":0,"notReady":133,"info":"No Gray Glacier ready version of this client has been released up to now","total":133},{"name":"nethermind","ready":41,"notReady":25,"info":"Nethermind versions 1.13.3 and higher are compatible with the Gray Glacier network upgrade","total":66},{"name":"besu","ready":21,"notReady":4,"info":"Besu versions 22.4.3 and higher are compatible with the Gray Glacier network upgrade","total":25},{"name":"trippynode","ready":0,"notReady":12,"info":"No Gray Glacier ready version of this client has been released up to now","total":12},{"name":"neonnode","ready":0,"notReady":3,"info":"No Gray Glacier ready version of this client has been released up to now","total":3},{"name":"bitcoind","ready":0,"notReady":2,"info":"No Gray Glacier ready version of this client has been released up to now","total":2},{"name":"teth","ready":0,"notReady":2,"info":"No Gray Glacier ready version of this client has been released up to now","total":2},{"name":"Total","ready":1063,"notReady":795,"total":1858}]
+var pieChartData = [];
+pieChartData.push({
+  y: pieChartDataRaw[pieChartDataRaw.length - 1].ready,
+  color: "#18b37e",
+  name: "Ready",
+  drilldown: "ready"
+})
+pieChartData.push({
+  y: pieChartDataRaw[pieChartDataRaw.length - 1].notReady,
+  color: "#e64759",
+  name: "Not Ready",
+  drilldown: "notready",
+  title: {text: "abc"}
+})
+
+var colors = ["#1997c6", "#18b37e", "#8b6cff", "#e1d420", "#e33145", "#51586a"];
+
+var drillDownReady = {
+  colorByPoint: true,
+  borderColor: '#252830',
+  name: "Upgrade Ready Clients",
+  id: "ready",
+  data: []
+}
+var drillDownNotReady = {
+  colorByPoint: true,
+  borderColor: '#252830',
+  name: "Not Upgrade Ready Clients",
+  id: "notready",
+  data: []
+}
+
+pieChartDataRaw.forEach(function (item) {
+  if (item.name !== "Total") {
+    drillDownReady.data.push({
+      y: item.ready,
+      color: colors[drillDownReady.data.length % colors.length],
+      name: item.name
+    })
+    drillDownNotReady.data.push({
+      y: item.notReady,
+      color: colors[drillDownNotReady.data.length % colors.length],
+      name: item.name
+    })
+  }
+})
+
+var chart = Highcharts.chart("chart", {
+  chart: {
+    backgroundColor: 'transparent',
+    type: 'pie',
+    animation: false,
+    events: {
+      drilldown: function (e) {
+        console.log(e)
+        chart.setTitle({text: e.seriesOptions.name});
+      },
+      drillup: function (e) {
+        chart.setTitle({text: "Gray Glacier readiness client distribution"});
+      }
+    }
+  },
+  credits: {
+    href: "https://ethernodes.org",
+    text: "Chart provided by ethernodes.org"
+  },
+  title: {
+    text: 'Gray Glacier ready client distribution',
+    style: {
+      color: "rgb(207, 210, 218)"
+    }
+  },
+  tooltip: {
+    pointFormat: '<b>{point.y} ({point.percentage:.1f}%)</b>'
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: true,
+        format: '{point.name}: {point.y} ({point.percentage:.1f}%)',
+        style: {
+          textOutline: '0px',
+          color: 'rgb(255, 255, 255)',
+          fontWeight: 'normal'
+        }
+      }
+    }
+  },
+  series: [{
+    name: 'Gray Glacier Upgrade Status',
+    colorByPoint: true,
+    borderColor: '#252830',
+    data: pieChartData,
+    animation: false
+  }],
+  drilldown: {
+    activeDataLabelStyle: {
+      color: "#106382"
+    },
+    series: [
+      drillDownReady,
+      drillDownNotReady
+    ]
+  }
+});
+
+var historyDataAbs = [{"name":"geth","color":"#1997c6","data":[[1656324681000,853],[1656321080000,824],[1656317479000,804],[1656313879000,761],[1656310278000,697],[1656306677000,682],[1656303076000,670],[1656299475000,641],[1656295874000,645],[1656292274000,659],[1656288673000,686],[1656285073000,689],[1656281472000,686],[1656277871000,695],[1656274271000,696],[1656270670000,704],[1656267069000,698],[1656263469000,711],[1656259868000,728],[1656256267000,744],[1656252666000,747],[1656249065000,744],[1656245465000,753],[1656241864000,772],[1656238263000,787],[1656234662000,810],[1656231061000,828],[1656227460000,836],[1656223860000,845],[1656220259000,852],[1656216658000,853],[1656213057000,859],[1656209456000,854],[1656205856000,846],[1656202255000,827],[1656198654000,831],[1656195053000,840],[1656191452000,850],[1656187852000,847],[1656184251000,836],[1656180651000,832],[1656177050000,827],[1656173449000,818],[1656169848000,823],[1656166247000,814],[1656162647000,821],[1656159046000,821],[1656155445000,816],[1656151845000,807],[1656148244000,811],[1656144644000,804],[1656141043000,797],[1656137442000,774],[1656133841000,760],[1656130241000,743],[1656126640000,736],[1656123040000,735],[1656119439000,731],[1656115839000,731],[1656112238000,730],[1656108637000,720],[1656105036000,713],[1656101435000,711],[1656097834000,713],[1656094234000,711],[1656090633000,722],[1656087033000,729],[1656083432000,737],[1656079832000,729],[1656076231000,723],[1656072630000,712],[1656069030000,710],[1656065429000,711],[1656061828000,708],[1656058227000,695],[1656054626000,689],[1656051025000,691],[1656047425000,685],[1656043824000,678],[1656040223000,674],[1656036622000,673],[1656033022000,670],[1656029421000,671],[1656025820000,664],[1656022219000,656],[1656018618000,648],[1656015017000,644],[1656011416000,638],[1656007815000,636],[1656004214000,624],[1656000613000,601],[1655997012000,588],[1655993411000,585],[1655989810000,576],[1655986209000,574],[1655982608000,575],[1655979007000,575],[1655975407000,565],[1655971806000,559],[1655968205000,559],[1655964604000,552],[1655961003000,549],[1655957402000,549],[1655953801000,545],[1655950201000,530],[1655946600000,529],[1655942999000,526],[1655939398000,516],[1655935797000,527],[1655932196000,536],[1655928595000,539],[1655924994000,554],[1655921393000,564],[1655917792000,573],[1655914191000,573],[1655910590000,576],[1655906989000,571],[1655903388000,572],[1655899787000,564],[1655896187000,559],[1655892586000,553],[1655888985000,539],[1655885384000,531],[1655881783000,526],[1655878182000,515],[1655874581000,502],[1655870980000,490],[1655867379000,480],[1655863778000,459],[1655860177000,457],[1655856577000,450],[1655852975000,435],[1655849374000,427],[1655845774000,415],[1655842173000,400],[1655838572000,388],[1655834971000,386],[1655831370000,380],[1655827769000,383],[1655824168000,378],[1655820568000,386],[1655816967000,392],[1655813367000,403],[1655809766000,400],[1655806166000,398],[1655802565000,396],[1655798965000,396],[1655795364000,391],[1655791763000,393],[1655788163000,389],[1655784562000,391],[1655780961000,396],[1655777360000,399],[1655773759000,401],[1655770159000,399],[1655766558000,404],[1655762958000,402],[1655759357000,409],[1655755756000,403],[1655752156000,397],[1655748555000,401]]},{"name":"erigon","color":"#18b37e","data":[[1656324681000,148],[1656321080000,146],[1656317479000,145],[1656313879000,139],[1656310278000,131],[1656306677000,125],[1656303076000,120],[1656299475000,118],[1656295874000,119],[1656292274000,118],[1656288673000,122],[1656285073000,121],[1656281472000,119],[1656277871000,117],[1656274271000,113],[1656270670000,119],[1656267069000,119],[1656263469000,122],[1656259868000,118],[1656256267000,113],[1656252666000,114],[1656249065000,113],[1656245465000,116],[1656241864000,118],[1656238263000,121],[1656234662000,124],[1656231061000,127],[1656227460000,134],[1656223860000,141],[1656220259000,146],[1656216658000,151],[1656213057000,151],[1656209456000,151],[1656205856000,153],[1656202255000,153],[1656198654000,153],[1656195053000,158],[1656191452000,161],[1656187852000,163],[1656184251000,166],[1656180651000,173],[1656177050000,177],[1656173449000,174],[1656169848000,176],[1656166247000,176],[1656162647000,175],[1656159046000,180],[1656155445000,183],[1656151845000,182],[1656148244000,180],[1656144644000,177],[1656141043000,175],[1656137442000,177],[1656133841000,172],[1656130241000,173],[1656126640000,170],[1656123040000,169],[1656119439000,168],[1656115839000,168],[1656112238000,169],[1656108637000,169],[1656105036000,167],[1656101435000,166],[1656097834000,165],[1656094234000,161],[1656090633000,164],[1656087033000,169],[1656083432000,167],[1656079832000,168],[1656076231000,164],[1656072630000,162],[1656069030000,159],[1656065429000,157],[1656061828000,153],[1656058227000,152],[1656054626000,153],[1656051025000,147],[1656047425000,147],[1656043824000,144],[1656040223000,141],[1656036622000,141],[1656033022000,141],[1656029421000,143],[1656025820000,140],[1656022219000,136],[1656018618000,127],[1656015017000,131],[1656011416000,130],[1656007815000,133],[1656004214000,131],[1656000613000,128],[1655997012000,128],[1655993411000,127],[1655989810000,127],[1655986209000,126],[1655982608000,126],[1655979007000,126],[1655975407000,124],[1655971806000,126],[1655968205000,122],[1655964604000,125],[1655961003000,127],[1655957402000,131],[1655953801000,135],[1655950201000,134],[1655946600000,133],[1655942999000,138],[1655939398000,139],[1655935797000,142],[1655932196000,144],[1655928595000,147],[1655924994000,150],[1655921393000,147],[1655917792000,144],[1655914191000,149],[1655910590000,151],[1655906989000,150],[1655903388000,150],[1655899787000,150],[1655896187000,148],[1655892586000,146],[1655888985000,145],[1655885384000,138],[1655881783000,135],[1655878182000,135],[1655874581000,134],[1655870980000,131],[1655867379000,130],[1655863778000,132],[1655860177000,129],[1655856577000,128],[1655852975000,127],[1655849374000,120],[1655845774000,122],[1655842173000,119],[1655838572000,114],[1655834971000,113],[1655831370000,120],[1655827769000,119],[1655824168000,123],[1655820568000,131],[1655816967000,134],[1655813367000,130],[1655809766000,128],[1655806166000,130],[1655802565000,133],[1655798965000,134],[1655795364000,136],[1655791763000,131],[1655788163000,127],[1655784562000,128],[1655780961000,129],[1655777360000,130],[1655773759000,129],[1655770159000,130],[1655766558000,128],[1655762958000,128],[1655759357000,133],[1655755756000,136],[1655752156000,135],[1655748555000,137]]},{"name":"nethermind","color":"#8b6cff","data":[[1656324681000,41],[1656321080000,40],[1656317479000,40],[1656313879000,39],[1656310278000,40],[1656306677000,40],[1656303076000,39],[1656299475000,38],[1656295874000,39],[1656292274000,39],[1656288673000,40],[1656285073000,41],[1656281472000,41],[1656277871000,41],[1656274271000,42],[1656270670000,42],[1656267069000,43],[1656263469000,43],[1656259868000,42],[1656256267000,41],[1656252666000,40],[1656249065000,38],[1656245465000,39],[1656241864000,41],[1656238263000,40],[1656234662000,39],[1656231061000,39],[1656227460000,40],[1656223860000,40],[1656220259000,39],[1656216658000,38],[1656213057000,37],[1656209456000,37],[1656205856000,36],[1656202255000,35],[1656198654000,35],[1656195053000,34],[1656191452000,34],[1656187852000,36],[1656184251000,36],[1656180651000,37],[1656177050000,37],[1656173449000,38],[1656169848000,38],[1656166247000,40],[1656162647000,39],[1656159046000,40],[1656155445000,41],[1656151845000,42],[1656148244000,43],[1656144644000,43],[1656141043000,42],[1656137442000,42],[1656133841000,42],[1656130241000,42],[1656126640000,41],[1656123040000,40],[1656119439000,39],[1656115839000,41],[1656112238000,40],[1656108637000,42],[1656105036000,42],[1656101435000,39],[1656097834000,39],[1656094234000,39],[1656090633000,38],[1656087033000,37],[1656083432000,38],[1656079832000,36],[1656076231000,36],[1656072630000,35],[1656069030000,36],[1656065429000,36],[1656061828000,36],[1656058227000,36],[1656054626000,37],[1656051025000,38],[1656047425000,37],[1656043824000,37],[1656040223000,37],[1656036622000,37],[1656033022000,35],[1656029421000,33],[1656025820000,34],[1656022219000,33],[1656018618000,33],[1656015017000,33],[1656011416000,32],[1656007815000,33],[1656004214000,34],[1656000613000,34],[1655997012000,33],[1655993411000,31],[1655989810000,30],[1655986209000,31],[1655982608000,32],[1655979007000,30],[1655975407000,33],[1655971806000,33],[1655968205000,34],[1655964604000,35],[1655961003000,38],[1655957402000,38],[1655953801000,37],[1655950201000,37],[1655946600000,40],[1655942999000,41],[1655939398000,41],[1655935797000,40],[1655932196000,41],[1655928595000,42],[1655924994000,42],[1655921393000,42],[1655917792000,42],[1655914191000,40],[1655910590000,39],[1655906989000,38],[1655903388000,38],[1655899787000,37],[1655896187000,37],[1655892586000,37],[1655888985000,38],[1655885384000,38],[1655881783000,38],[1655878182000,37],[1655874581000,38],[1655870980000,39],[1655867379000,37],[1655863778000,36],[1655860177000,35],[1655856577000,34],[1655852975000,35],[1655849374000,34],[1655845774000,31],[1655842173000,30],[1655838572000,27],[1655834971000,27],[1655831370000,26],[1655827769000,27],[1655824168000,28],[1655820568000,29],[1655816967000,29],[1655813367000,29],[1655809766000,28],[1655806166000,28],[1655802565000,28],[1655798965000,28],[1655795364000,27],[1655791763000,28],[1655788163000,27],[1655784562000,27],[1655780961000,27],[1655777360000,27],[1655773759000,27],[1655770159000,26],[1655766558000,24],[1655762958000,26],[1655759357000,26],[1655755756000,26],[1655752156000,26],[1655748555000,26]]},{"name":"besu","color":"#e1d420","data":[[1656324681000,21],[1656321080000,20],[1656317479000,21],[1656313879000,21],[1656310278000,20],[1656306677000,21],[1656303076000,22],[1656299475000,22],[1656295874000,23],[1656292274000,24],[1656288673000,23],[1656285073000,24],[1656281472000,25],[1656277871000,24],[1656274271000,24],[1656270670000,25],[1656267069000,24],[1656263469000,24],[1656259868000,24],[1656256267000,24],[1656252666000,23],[1656249065000,23],[1656245465000,23],[1656241864000,23],[1656238263000,22],[1656234662000,24],[1656231061000,22],[1656227460000,21],[1656223860000,21],[1656220259000,20],[1656216658000,21],[1656213057000,20],[1656209456000,19],[1656205856000,19],[1656202255000,20],[1656198654000,20],[1656195053000,20],[1656191452000,20],[1656187852000,19],[1656184251000,19],[1656180651000,20],[1656177050000,22],[1656173449000,24],[1656169848000,25],[1656166247000,24],[1656162647000,24],[1656159046000,28],[1656155445000,28],[1656151845000,28],[1656148244000,27],[1656144644000,27],[1656141043000,27],[1656137442000,27],[1656133841000,27],[1656130241000,27],[1656126640000,27],[1656123040000,29],[1656119439000,30],[1656115839000,32],[1656112238000,32],[1656108637000,33],[1656105036000,33],[1656101435000,33],[1656097834000,31],[1656094234000,29],[1656090633000,28],[1656087033000,27],[1656083432000,29],[1656079832000,30],[1656076231000,30],[1656072630000,29],[1656069030000,29],[1656065429000,29],[1656061828000,27],[1656058227000,28],[1656054626000,29],[1656051025000,30],[1656047425000,31],[1656043824000,30],[1656040223000,29],[1656036622000,28],[1656033022000,29],[1656029421000,28],[1656025820000,30],[1656022219000,28],[1656018618000,29],[1656015017000,28],[1656011416000,28],[1656007815000,28],[1656004214000,28],[1656000613000,30],[1655997012000,32],[1655993411000,33],[1655989810000,31],[1655986209000,30],[1655982608000,31],[1655979007000,33],[1655975407000,34],[1655971806000,34],[1655968205000,34],[1655964604000,33],[1655961003000,33],[1655957402000,33],[1655953801000,34],[1655950201000,34],[1655946600000,33],[1655942999000,33],[1655939398000,31],[1655935797000,31],[1655932196000,32],[1655928595000,31],[1655924994000,31],[1655921393000,32],[1655917792000,31],[1655914191000,31],[1655910590000,30],[1655906989000,30],[1655903388000,33],[1655899787000,32],[1655896187000,33],[1655892586000,32],[1655888985000,31],[1655885384000,29],[1655881783000,28],[1655878182000,29],[1655874581000,29],[1655870980000,28],[1655867379000,25],[1655863778000,26],[1655860177000,26],[1655856577000,28],[1655852975000,28],[1655849374000,28],[1655845774000,27],[1655842173000,30],[1655838572000,33],[1655834971000,32],[1655831370000,30],[1655827769000,32],[1655824168000,33],[1655820568000,32],[1655816967000,32],[1655813367000,32],[1655809766000,31],[1655806166000,30],[1655802565000,31],[1655798965000,31],[1655795364000,31],[1655791763000,31],[1655788163000,32],[1655784562000,32],[1655780961000,33],[1655777360000,32],[1655773759000,32],[1655770159000,32],[1655766558000,31],[1655762958000,32],[1655759357000,33],[1655755756000,32],[1655752156000,32],[1655748555000,30]]}]
+if (historyDataAbs) {
+  Highcharts.chart("historyChart", {
+    chart: {
+      backgroundColor: 'transparent',
+      zoomType: 'x',
+      animation: false,
+      type: 'area'
+    },
+    credits: {
+      href: "https://ethernodes.org",
+      text: "Chart provided by ethernodes.org"
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime',
+      tickInterval: 3600 * 1000
+    },
+    yAxis: {
+      title: {
+        text: 'Update ready node count'
+      }
+    },
+    legend: {
+      enabled: true,
+      itemStyle: {
+        color: "rgb(207, 210, 218)"
+      }
+    },
+    tooltip: {
+      xDateFormat: '%Y-%m-%d %H:%M',
+    },
+    plotOptions: {
+      area: {
+        stacking: 'normal',
+        lineColor: '#666666',
+        lineWidth: 1,
+        marker: {
+          lineWidth: 1,
+          lineColor: '#666666'
+        }
+      }
+    },
+    series: historyDataAbs
+  });
+}
+
+var historyDataRel = [{"name":"Not Ready","color":"#1997c6","data":[[1655748555000,1235],[1655752156000,1233],[1655755756000,1217],[1655759357000,1219],[1655762958000,1216],[1655766558000,1218],[1655770159000,1221],[1655773759000,1222],[1655777360000,1210],[1655780961000,1207],[1655784562000,1196],[1655788163000,1175],[1655791763000,1170],[1655795364000,1170],[1655798965000,1163],[1655802565000,1142],[1655806166000,1120],[1655809766000,1121],[1655813367000,1117],[1655816967000,1089],[1655820568000,1066],[1655824168000,1045],[1655827769000,1033],[1655831370000,1014],[1655834971000,1001],[1655838572000,999],[1655842173000,1009],[1655845774000,1011],[1655849374000,1032],[1655852975000,1055],[1655856577000,1054],[1655860177000,1073],[1655863778000,1089],[1655867379000,1103],[1655870980000,1113],[1655874581000,1117],[1655878182000,1133],[1655881783000,1138],[1655885384000,1136],[1655888985000,1126],[1655892586000,1135],[1655896187000,1137],[1655899787000,1131],[1655903388000,1135],[1655906989000,1135],[1655910590000,1135],[1655914191000,1138],[1655917792000,1134],[1655921393000,1126],[1655924994000,1120],[1655928595000,1111],[1655932196000,1087],[1655935797000,1070],[1655939398000,1056],[1655942999000,1046],[1655946600000,1036],[1655950201000,1021],[1655953801000,1025],[1655957402000,1021],[1655961003000,1000],[1655964604000,1014],[1655968205000,1017],[1655971806000,1008],[1655975407000,1009],[1655979007000,1004],[1655982608000,1009],[1655986209000,1015],[1655989810000,1016],[1655993411000,1024],[1655997012000,1018],[1656000613000,1017],[1656004214000,1039],[1656007815000,1047],[1656011416000,1050],[1656015017000,1070],[1656018618000,1075],[1656022219000,1085],[1656025820000,1087],[1656029421000,1103],[1656033022000,1102],[1656036622000,1101],[1656040223000,1079],[1656043824000,1066],[1656047425000,1075],[1656051025000,1078],[1656054626000,1074],[1656058227000,1068],[1656061828000,1067],[1656065429000,1062],[1656069030000,1050],[1656072630000,1041],[1656076231000,1029],[1656079832000,1022],[1656083432000,1031],[1656087033000,1028],[1656090633000,1008],[1656094234000,1001],[1656097834000,1003],[1656101435000,1005],[1656105036000,1000],[1656108637000,992],[1656112238000,973],[1656115839000,963],[1656119439000,964],[1656123040000,956],[1656126640000,959],[1656130241000,966],[1656133841000,964],[1656137442000,959],[1656141043000,967],[1656144644000,970],[1656148244000,964],[1656151845000,953],[1656155445000,949],[1656159046000,950],[1656162647000,937],[1656166247000,939],[1656169848000,929],[1656173449000,915],[1656177050000,900],[1656180651000,902],[1656184251000,889],[1656187852000,881],[1656191452000,880],[1656195053000,876],[1656198654000,872],[1656202255000,859],[1656205856000,851],[1656209456000,850],[1656213057000,847],[1656216658000,837],[1656220259000,832],[1656223860000,829],[1656227460000,827],[1656231061000,824],[1656234662000,811],[1656238263000,805],[1656241864000,794],[1656245465000,790],[1656249065000,781],[1656252666000,769],[1656256267000,763],[1656259868000,754],[1656263469000,752],[1656267069000,745],[1656270670000,741],[1656274271000,736],[1656277871000,731],[1656281472000,721],[1656285073000,722],[1656288673000,722],[1656292274000,715],[1656295874000,716],[1656299475000,707],[1656303076000,710],[1656306677000,703],[1656310278000,702],[1656313879000,744],[1656317479000,767],[1656321080000,781],[1656324681000,795]]},{"name":"Ready","color":"#18b37e","data":[[1655748555000,594],[1655752156000,590],[1655755756000,597],[1655759357000,601],[1655762958000,588],[1655766558000,587],[1655770159000,587],[1655773759000,589],[1655777360000,588],[1655780961000,585],[1655784562000,578],[1655788163000,575],[1655791763000,583],[1655795364000,585],[1655798965000,589],[1655802565000,588],[1655806166000,586],[1655809766000,587],[1655813367000,594],[1655816967000,587],[1655820568000,578],[1655824168000,562],[1655827769000,561],[1655831370000,556],[1655834971000,558],[1655838572000,562],[1655842173000,579],[1655845774000,595],[1655849374000,609],[1655852975000,625],[1655856577000,640],[1655860177000,647],[1655863778000,653],[1655867379000,672],[1655870980000,688],[1655874581000,703],[1655878182000,716],[1655881783000,727],[1655885384000,736],[1655888985000,753],[1655892586000,768],[1655896187000,777],[1655899787000,783],[1655903388000,793],[1655906989000,789],[1655910590000,796],[1655914191000,793],[1655917792000,790],[1655921393000,785],[1655924994000,777],[1655928595000,759],[1655932196000,753],[1655935797000,740],[1655939398000,727],[1655942999000,738],[1655946600000,735],[1655950201000,735],[1655953801000,751],[1655957402000,751],[1655961003000,747],[1655964604000,745],[1655968205000,749],[1655971806000,752],[1655975407000,756],[1655979007000,764],[1655982608000,764],[1655986209000,761],[1655989810000,764],[1655993411000,776],[1655997012000,781],[1656000613000,793],[1656004214000,817],[1656007815000,830],[1656011416000,828],[1656015017000,836],[1656018618000,837],[1656022219000,853],[1656025820000,868],[1656029421000,875],[1656033022000,875],[1656036622000,879],[1656040223000,881],[1656043824000,889],[1656047425000,900],[1656051025000,906],[1656054626000,908],[1656058227000,911],[1656061828000,924],[1656065429000,933],[1656069030000,934],[1656072630000,938],[1656076231000,953],[1656079832000,963],[1656083432000,971],[1656087033000,962],[1656090633000,952],[1656094234000,940],[1656097834000,948],[1656101435000,949],[1656105036000,955],[1656108637000,964],[1656112238000,971],[1656115839000,972],[1656119439000,968],[1656123040000,973],[1656126640000,974],[1656130241000,985],[1656133841000,1001],[1656137442000,1020],[1656141043000,1041],[1656144644000,1051],[1656148244000,1061],[1656151845000,1059],[1656155445000,1068],[1656159046000,1069],[1656162647000,1059],[1656166247000,1054],[1656169848000,1062],[1656173449000,1054],[1656177050000,1063],[1656180651000,1062],[1656184251000,1057],[1656187852000,1065],[1656191452000,1065],[1656195053000,1052],[1656198654000,1039],[1656202255000,1035],[1656205856000,1054],[1656209456000,1061],[1656213057000,1067],[1656216658000,1063],[1656220259000,1057],[1656223860000,1047],[1656227460000,1031],[1656231061000,1016],[1656234662000,997],[1656238263000,970],[1656241864000,954],[1656245465000,931],[1656249065000,918],[1656252666000,924],[1656256267000,922],[1656259868000,912],[1656263469000,900],[1656267069000,884],[1656270670000,890],[1656274271000,875],[1656277871000,877],[1656281472000,871],[1656285073000,875],[1656288673000,871],[1656292274000,840],[1656295874000,826],[1656299475000,819],[1656303076000,851],[1656306677000,868],[1656310278000,888],[1656313879000,960],[1656317479000,1010],[1656321080000,1030],[1656324681000,1063]]}]
+
+if (historyDataRel) {
+  Highcharts.chart("historyRelChart", {
+    chart: {
+      backgroundColor: 'transparent',
+      zoomType: 'x',
+      animation: false,
+      type: 'area'
+    },
+    credits: {
+      href: "https://ethernodes.org",
+      text: "Chart provided by ethernodes.org"
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime',
+      tickInterval: 3600 * 1000
+    },
+    yAxis: {
+      title: {
+        text: '%'
+      }
+    },
+    legend: {
+      enabled: true,
+      itemStyle: {
+        color: "rgb(207, 210, 218)"
+      }
+    },
+    tooltip: {
+      xDateFormat: '%Y-%m-%d %H:%M',
+      pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b> ({point.percentage:.1f}%)<br/>'
+    },
+    plotOptions: {
+      area: {
+        stacking: 'percent',
+        lineColor: '#666666',
+        lineWidth: 1,
+        marker: {
+          lineWidth: 1,
+          lineColor: '#666666'
+        }
+      }
+    },
+    series: historyDataRel
+  });
+}</script><script type="be691b48fc5e4588284dc3b9-text/javascript">let anchor = window.location.hash;
+
+if (anchor) {
+    anchor = anchor.replace("#", "")
+    window.location = "/" + anchor
+}
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})</script><script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="be691b48fc5e4588284dc3b9-|49" defer=""></script></body></html>

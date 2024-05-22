@@ -1,0 +1,319 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Berlin Upgrade Countdown &amp; Node Tracker - ethernodes.org - The Ethereum Network &amp; Node Explorer</title><link rel="stylesheet" href="/stylesheets/toolkit-inverse.min.css"><link rel="stylesheet" href="/stylesheets/style.css"><style>[v-cloak] {
+    display: none;
+}
+
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+</style></head><body style="padding-top: 10px"><div class="container"><nav class="navbar navbar-expand-lg navbar-dark"><a class="navbar-brand" href="/"><span class="icon icon-flow-tree"> ethernodes.org</span></a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/">Home</a></li><li class="nav-item"><a class="nav-link" href="/nodes">Browse</a></li><li class="nav-item active"><a class="nav-link" href="/berlin">Berlin</a></li><li class="nav-item"><a class="nav-link" href="https://wolf.bet/?c=ethernodes&amp;utm_source=ethernodes&amp;utm_medium=button&amp;utm_campaign=1"><img style="width: auto; height: 1rem; margin-bottom: .3rem; margin-right: .3rem;" src="/images/dice.svg"><span style="color: #1997c6;">Play & Win</span></a></li></ul><form class="form-inline my-2 my-lg-0" action="/search" method="POST"><input class="form-control mr-sm-2" placeholder="Search node by IP or public key" type="text" data-toggle="tooltip" data-placement="top" id="search" name="search"><button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><span class="icon icon-magnifying-glass"></span></button></form></div></nav></div><div class="container"><div class="text-center" id="codefund"></div><script src="https://codefund.app/properties/303/funder.js" async="async" type="d446a2cdc96e424dd399dea9-text/javascript"></script></div><div class="container"><div class="col-sm-12 content"><div id="app" v-cloak><h1 class="text-center mt-4">Ethereum Berlin Upgrade Countdown</h1><div v-if="12244000 - bestBlock &gt; 0"><p class="lead text-center">The Berlin upgrade block 12,244,000 is scheduled to occur on &nbsp;<u v-bind:title="'Based on an average block time of ' + blockTime + 's'" data-toggle="tooltip" data-placement="top">{{forkTs | formatForkTs}}</u> which is in</p><h2 class="text-center" id="timer">{{forkTs | timeToFork}}</h2><h4 class="text-center">{{ bestBlock | formatBlock }} / 12,244,000 | {{ 12244000 - bestBlock | formatBlock }} blocks to go</h4></div><div v-else><h2 class="text-center mt-4">🎉 🎉 The upgrade is now live on the Ethereum Mainnet 🎉 🎉</h2></div><p class="lead mt-5">Live client status</p><div class="table-responsive"><table class="table"><thead><tr><th>Client</th><th>Version</th><th>Status</th><th>Block Number</th><th>Block Hash</th><th>Total Difficulty</th><th>Last Block</th></tr></thead><tbody><tr v-for="(value, name) in clients"><td>{{ name }}</td><td>{{ value.version ? value.version : '-' }}</td><td v-if="value.status"><span class="badge badge-success">In Sync</span></td><td v-else="value.status"><span class="badge badge-danger">Syncing</span></td><td><transition name="slide-fade" mode="out-in"><span v-bind:key="value.block.number">{{ value.block.number }}</span></transition></td><td><transition name="slide-fade" mode="out-in"><a v-bind:href="'https://etherchain.org/block/'+ value.block.hash" v-bind:key="value.block.hash">{{value.block.hash | subStr}}</a></transition></td><td><transition name="slide-fade" mode="out-in"><span v-bind:key="value.totalDifficultyPercentage">{{ value.block.totalDifficulty | formatTotalDifficulty }} ({{value.totalDifficultyPercentage}}%)</span></transition></td><td style="width: 150px;"><transition name="slide-fade" mode="out-in"><span v-bind:key="value.block.timestamp | fromNow">{{ value.block.timestamp | fromNow }}</span></transition></td></tr></tbody></table></div><small class="float-right"> Next update in {{updateIn}}s</small><p class="lead mt-5">Berlin ready &&nbsp;<u><span title="We determine sync status by comparing the best block of a node to the current best block of the chain. If the nodes best block is less than 10 blocks behind the main chain we consider this node as synced." data-toggle="tooltip" data-placement="top">synced</span></u> clients seen on the Ethereum network (last 24h)</p><div class="row"><div class="col-md-6"><div class="table-responsive"><table class="table"><thead><tr><th>Client</th><th>Ready</th><th>Not-Ready</th></tr></thead><tbody><tr><td>geth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Geth versions 1.10.1 and higher are compatible with the Berlin network upgrade"></span></td><td>488 (38%)</td><td>798 (62%)</td></tr><tr><td>openethereum &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="OpenEthereum versions 3.2.0 and higher are compatible with the Berlin network upgrade"></span></td><td>73 (35%)</td><td>134 (65%)</td></tr><tr><td>parity-ethereum &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>91 (100%)</td></tr><tr><td>nethermind &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Nethermind versions 1.10.31 and higher are compatible with the Berlin network upgrade"></span></td><td>20 (69%)</td><td>9 (31%)</td></tr><tr><td>turbo-geth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>10 (100%)</td></tr><tr><td>teth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>4 (100%)</td></tr><tr><td>besu &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="Besu versions 21.1.1 and higher are compatible with the Berlin network upgrade"></span></td><td>1 (50%)</td><td>1 (50%)</td></tr><tr><td>coregeth &nbsp;<span class="icon icon-info-with-circle" data-toggle="tooltip" data-placement="right" title="No Berlin ready version of this client has been released up to now"></span></td><td>0 (0%)</td><td>2 (100%)</td></tr><tr><td>Total &nbsp;</td><td>582 (36%)</td><td>1049 (64%)</td></tr></tbody></table></div></div><div class="col-md-6"><div id="chart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div></div></div><div class="row"><div class="col-md-12"><div class="hr-divider"><ul class="nav nav-pills hr-divider-content hr-divider-nav" id="pills-tab" role="tablist"><li class="nav-item"><a class="nav-link active" id="pills-absolute-tab" data-toggle="pill" href="#pills-absolute" role="tab" aria-controls="pills-absolute" aria-selected="true">Absolute</a></li><li class="nav-item"><a class="nav-link" id="pills-relative-tab" data-toggle="pill" href="#pills-relative" role="tab" aria-controls="pills-relative" aria-selected="false">Relative</a></li></ul></div><div class="tab-content" id="pills-tabContent"><div class="tab-pane fade show active" id="pills-absolute" role="tabpanel" aria-labelledby="pills-absolute-tab"><div id="historyChart" style="height: 400px; margin: 0 auto"></div></div><div class="tab-pane fade" id="pills-relative" role="tabpanel" aria-labelledby="pills-relative-tab"><div id="historyRelChart" style="height: 400px; margin: 0 auto"></div></div></div></div></div><div class="row"><div class="col-md-12"></div></div><div class="row"><div class="col-md-6"><h2 class="mt-5">Exchanges</h2><p class="lead"></p><div class="table-responsive"><table class="table"><thead><tr><th>Exchange</th><th>Status</th></tr></thead><tbody><tr><td><a href="https://www.binance.com/">Binance</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.coinbase.com/">Coinbase</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.kraken.com/">Kraken</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.bithumb.com/">Bithumb</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.hbg.com/">Huobi
+</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.poloniex.com/">Poloniex</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://gemini.com/">Gemini</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.bitfinex.com/">Bitfinex
+</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://international.bittrex.com/">Bittrex</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://bitso.com/">Bitso</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr></tbody></table></div></div><div class="col-md-6"><h2 class="mt-5">Infrastructure Providers</h2><p class="lead"></p><div class="table-responsive"><table class="table"><thead><tr><th>Infrastructure Provider</th><th>Status</th></tr></thead><tbody><tr><td><a href="https://www.etherchain.org/">Etherchain</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.infura.io/">Infura</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.etherscan.io/">Etherscan</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://mycrypto.com/">MyCrypto</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://myetherwallet.com/">MyEtherWallet</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://metamask.io/">MetaMask</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://aleth.io/">Alethio</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://blockscout.com/eth/mainnet/">Blockscout</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://quiknode.io/">QuickNode</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://chainstack.com/">Chainstack</a></td><td><span class="badge badge-success" title="The provider has confirmed to be ready for the upgrade" data-toggle="tooltip" data-placement="right">Ready</span></td></tr></tbody></table></div></div><div class="col-md-6"><h2 class="mt-5">Mining Pools</h2><p class="lead"></p><div class="table-responsive"><table class="table"><thead><tr><th>Mining Pool</th><th>Status</th></tr></thead><tbody><tr><td><a href="https://ethermine.org">Ethermine</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.sparkpool.com/">Sparkpool</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.f2pool.com/">F2pool</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://www.nanopool.org/">Nanopool</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://pool.zhizhu.top/">Zhizhu</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr><tr><td><a href="https://ethereum.miningpoolhub.com/">MiningPoolHub</a></td><td><span class="badge badge-info" title="The pool has not yet provided any public information if it is ready for the upgrade" data-toggle="tooltip" data-placement="right">No information</span></td></tr></tbody></table></div></div><div class="col-md-6 mt-5"><h2>FAQ</h2><h4>Where is the official announcement of the upgrade?</h4><p>No official announcement has been made up to now.</p><h4>Which upgrades are included?</h4><p>For a complete list of EIPs included in the upgrade see the &nbsp;<a href="https://blog.ethereum.org/2021/03/08/ethereum-berlin-upgrade-announcement/">Official Upgrade Announcement</a>.</p><h4>Which action do I need to take?</h4><p>If you are running an Ethereum client (for example Geth, Openethereum, Besu, or Nethermind) please update it to the latest version.</p><h4>I would like to update the status of a mining pool, infrastructure provider or exchange displayed on the site</h4><p>Simply send us a mail to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b6d9d0d0dfd5d3f6d4dfc2d0dacf98d7c2">[email&#160;protected]</a> which includes the information you would like to have updated. If possible please also include a link to the public announcement of the service.</p></div></div></div></div></div><div class="container text-center"><div class="col-sm-12 content"><hr><footer><p>© bitfly gmbh 2021 | ethernodes.org - The Ethereum Network &amp; Node Explorer |&nbsp;<a href="https://www.reddit.com/u/etherchain">Contact us&nbsp;</a>| &nbsp;<a href="/donate">Donate&nbsp;</a>| &nbsp;<a href="/imprint">Imprint</a></p><p>Note: Proper source attribution is required if the charts or the underlying data is used outside of this page.</p></footer></div></div><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="d446a2cdc96e424dd399dea9-text/javascript">(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-71985403-1', 'auto');
+ga('send', 'pageview');
+</script><script src="https://code.jquery.com/jquery-3.3.1.min.js" type="d446a2cdc96e424dd399dea9-text/javascript"></script><script src="/javascripts/popper.min.js" type="d446a2cdc96e424dd399dea9-text/javascript"></script><script src="/javascripts/toolkit.min.js" type="d446a2cdc96e424dd399dea9-text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/vue" type="d446a2cdc96e424dd399dea9-text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" type="d446a2cdc96e424dd399dea9-text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js" type="d446a2cdc96e424dd399dea9-text/javascript"></script><script type="d446a2cdc96e424dd399dea9-text/javascript">var app = new Vue({
+  el: '#app',
+  data: {
+    clients: {"infura":{"version":"geth-1.9.25","block":{"hash":"0xcc06cec401ae9569ddba17f1a6b0c93d90489b42e1b36b51dc724f8f0f0f4fda","timestamp":1616486861,"number":12093930,"difficulty":"5739333036365903","totalDifficulty":"2.2363463024527132109968e+22"},"status":1,"totalDifficultyPercentage":"100.0"}},
+    updateIn: -1,
+    forkTs: 1618587861952,
+    blockTime: 14,
+    bestBlock: 12093930
+  },
+  filters: {
+    subStr: function (string) {
+      return string.substring(0, 12) + '...';
+    },
+    formatTotalDifficulty: function (td) {
+      return numeral(td).format('0.00e+0').toUpperCase();
+    },
+    formatBlock: function (block) {
+      return numeral(block).format('0,0');
+    },
+    fromNow: function (ts) {
+      return moment(ts * 1000).fromNow();
+    },
+    formatForkTs: function (ts) {
+      return moment(ts).format("llll");
+    },
+    timeToFork: function (ts) {
+      var distance = moment.duration(moment(ts).diff(moment())).asMilliseconds();
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      return days + " day" + (days === 1 ? " " : "s ") + hours + " hour" + (hours === 1 ? " " : "s ") +
+        +minutes + " minute" + (minutes === 1 ? " " : "s ") + " and " + seconds + " second" + (seconds === 1 ? "" : "s");
+    }
+  },
+  created: function () {
+    this.tick();
+    setInterval(function () {
+      this.tick();
+    }.bind(this), 1000);
+
+    setInterval(function () {
+      this.updateCodefund();
+    }.bind(this), 60000);
+
+  },
+  methods: {
+    tick: function () {
+      if (this.updateIn <= 0) {
+        $.getJSON('/berlin/live', function (response) {
+          this.clients = response.clientStatus;
+          this.forkTs = response.forkTs;
+          this.blockTime = response.blockTime;
+          this.bestBlock = response.bestBlock;
+
+        }.bind(this));
+        this.updateIn = 15;
+      } else {
+        this.updateIn--;
+      }
+    },
+    updateCodefund: function () {
+      if (typeof document.hidden !== "undefined" && !document.hidden) {
+        $.get('https://api.codefund.app/properties/303/funder.html', function (response) {
+          document.getElementById("codefund").innerHTML = response;
+        });
+      }
+    }
+  }
+})</script><script src="https://code.highcharts.com/highcharts.js" type="d446a2cdc96e424dd399dea9-text/javascript"></script><script src="https://code.highcharts.com/modules/drilldown.js" type="d446a2cdc96e424dd399dea9-text/javascript"></script><script type="d446a2cdc96e424dd399dea9-text/javascript">var pieChartDataRaw = [{"name":"geth","ready":488,"notReady":798,"info":"Geth versions 1.10.1 and higher are compatible with the Berlin network upgrade","total":1286},{"name":"openethereum","ready":73,"notReady":134,"info":"OpenEthereum versions 3.2.0 and higher are compatible with the Berlin network upgrade","total":207},{"name":"parity-ethereum","ready":0,"notReady":91,"info":"No Berlin ready version of this client has been released up to now","total":91},{"name":"nethermind","ready":20,"notReady":9,"info":"Nethermind versions 1.10.31 and higher are compatible with the Berlin network upgrade","total":29},{"name":"turbo-geth","ready":0,"notReady":10,"info":"No Berlin ready version of this client has been released up to now","total":10},{"name":"teth","ready":0,"notReady":4,"info":"No Berlin ready version of this client has been released up to now","total":4},{"name":"besu","ready":1,"notReady":1,"info":"Besu versions 21.1.1 and higher are compatible with the Berlin network upgrade","total":2},{"name":"coregeth","ready":0,"notReady":2,"info":"No Berlin ready version of this client has been released up to now","total":2},{"name":"Total","ready":582,"notReady":1049,"total":1631}]
+var pieChartData = [];
+pieChartData.push({
+  y: pieChartDataRaw[pieChartDataRaw.length - 1].ready,
+  color: "#18b37e",
+  name: "Ready",
+  drilldown: "ready"
+})
+pieChartData.push({
+  y: pieChartDataRaw[pieChartDataRaw.length - 1].notReady,
+  color: "#e64759",
+  name: "Not Ready",
+  drilldown: "notready",
+  title: {text: "abc"}
+})
+
+var colors = ["#1997c6", "#18b37e", "#8b6cff", "#e1d420", "#e33145", "#51586a"];
+
+var drillDownReady = {
+  colorByPoint: true,
+  borderColor: '#252830',
+  name: "Upgrade Ready Clients",
+  id: "ready",
+  data: []
+}
+var drillDownNotReady = {
+  colorByPoint: true,
+  borderColor: '#252830',
+  name: "Not Upgrade Ready Clients",
+  id: "notready",
+  data: []
+}
+
+pieChartDataRaw.forEach(function (item) {
+  if (item.name !== "Total") {
+    drillDownReady.data.push({
+      y: item.ready,
+      color: colors[drillDownReady.data.length % colors.length],
+      name: item.name
+    })
+    drillDownNotReady.data.push({
+      y: item.notReady,
+      color: colors[drillDownNotReady.data.length % colors.length],
+      name: item.name
+    })
+  }
+})
+
+var chart = Highcharts.chart("chart", {
+  chart: {
+    backgroundColor: 'transparent',
+    type: 'pie',
+    animation: false,
+    events: {
+      drilldown: function (e) {
+        console.log(e)
+        chart.setTitle({text: e.seriesOptions.name});
+      },
+      drillup: function (e) {
+        chart.setTitle({text: "Berlin readiness client distribution"});
+      }
+    }
+  },
+  credits: {
+    href: "https://ethernodes.org",
+    text: "Chart provided by ethernodes.org"
+  },
+  title: {
+    text: 'Berlin ready client distribution',
+    style: {
+      color: "rgb(207, 210, 218)"
+    }
+  },
+  tooltip: {
+    pointFormat: '<b>{point.y} ({point.percentage:.1f}%)</b>'
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: true,
+        format: '{point.name}: {point.y} ({point.percentage:.1f}%)',
+        style: {
+          textOutline: '0px',
+          color: 'rgb(255, 255, 255)',
+          fontWeight: 'normal'
+        }
+      }
+    }
+  },
+  series: [{
+    name: 'Berlin Upgrade Status',
+    colorByPoint: true,
+    borderColor: '#252830',
+    data: pieChartData,
+    animation: false
+  }],
+  drilldown: {
+    activeDataLabelStyle: {
+      color: "#106382"
+    },
+    series: [
+      drillDownReady,
+      drillDownNotReady
+    ]
+  }
+});
+
+var historyDataAbs = [{"name":"geth","color":"#1997c6","data":[[1616484862000,488],[1616481262000,484],[1616477661000,487],[1616474061000,468],[1616470461000,469],[1616466860000,472],[1616463260000,477],[1616459660000,479],[1616456059000,486],[1616452459000,484],[1616448858000,483],[1616445258000,478],[1616441658000,475],[1616438057000,469],[1616434457000,474],[1616430856000,473],[1616427256000,467],[1616423656000,471],[1616420055000,474],[1616416455000,469],[1616412854000,482],[1616409254000,478],[1616405654000,484],[1616402053000,474],[1616398453000,474],[1616394852000,461],[1616391252000,467],[1616387652000,466],[1616384051000,470],[1616380451000,467],[1616376851000,461],[1616373250000,456],[1616369650000,459],[1616366049000,454],[1616362449000,451],[1616358849000,452],[1616355248000,454],[1616351648000,454],[1616348048000,443],[1616344447000,442],[1616340847000,437],[1616337246000,437],[1616333646000,439],[1616330046000,445],[1616326445000,441],[1616322845000,438],[1616319244000,436],[1616315644000,442],[1616312044000,445],[1616308443000,448],[1616304843000,449],[1616301242000,447],[1616297642000,445],[1616294042000,444],[1616290441000,443],[1616286841000,443],[1616283240000,442],[1616279640000,446],[1616276039000,445],[1616272439000,441],[1616268838000,436],[1616265238000,446],[1616261638000,452],[1616258037000,447],[1616254437000,443],[1616250836000,444],[1616247236000,444],[1616243636000,452],[1616240035000,455],[1616236435000,463],[1616232834000,462],[1616229234000,464],[1616225634000,457],[1616222033000,449],[1616218433000,449],[1616214832000,456],[1616211232000,454],[1616207631000,466],[1616204031000,472],[1616200430000,477],[1616196830000,478],[1616193230000,481],[1616189629000,483],[1616186029000,484],[1616182428000,486],[1616178828000,487],[1616175227000,482],[1616171627000,488],[1616168027000,492],[1616164426000,499],[1616160826000,498],[1616157225000,499],[1616153625000,502],[1616150025000,502],[1616146424000,494],[1616142824000,493],[1616139223000,495],[1616135623000,497],[1616132023000,492],[1616128422000,487],[1616124822000,486],[1616121221000,485],[1616117621000,480],[1616114021000,479],[1616110420000,473],[1616106820000,476],[1616103219000,468],[1616099619000,465],[1616096019000,459],[1616092418000,451],[1616088818000,451],[1616085217000,450],[1616081617000,445],[1616078016000,441],[1616074416000,442],[1616070816000,432],[1616067215000,430],[1616063615000,433],[1616060014000,435],[1616056414000,438],[1616052813000,434],[1616049213000,434],[1616045613000,433],[1616042012000,436],[1616038412000,434],[1616034811000,436],[1616031211000,435],[1616027611000,432],[1616024010000,428],[1616020410000,422],[1616016809000,418],[1616013208000,416],[1616009608000,421],[1616006008000,423],[1616002407000,419],[1615998807000,415],[1615995206000,411],[1615991606000,405],[1615988005000,411],[1615984405000,414],[1615980805000,420],[1615977204000,417],[1615973604000,414],[1615970004000,408],[1615966403000,411],[1615962803000,410],[1615959202000,406],[1615955602000,403],[1615952001000,393],[1615948401000,387],[1615944801000,389],[1615941200000,399],[1615937600000,405],[1615933999000,420],[1615930399000,422],[1615926799000,421],[1615923198000,417],[1615919598000,416],[1615915997000,415],[1615912397000,411],[1615908796000,414],[1615905196000,420],[1615901595000,427],[1615897995000,435],[1615894394000,429],[1615890794000,427],[1615887194000,425],[1615883593000,428],[1615879992000,443],[1615876392000,447],[1615872792000,442],[1615869191000,438],[1615865591000,441],[1615861990000,438],[1615858390000,433],[1615854789000,424],[1615851189000,418],[1615847588000,408],[1615843988000,408],[1615840388000,398],[1615836787000,392],[1615833186000,392],[1615829586000,392],[1615825985000,394],[1615822385000,389],[1615818784000,387],[1615815184000,378],[1615811583000,372],[1615807983000,367],[1615804382000,353],[1615800782000,347],[1615797181000,340],[1615793581000,332],[1615789981000,321],[1615786380000,319],[1615782780000,314],[1615779179000,310],[1615775579000,300],[1615771978000,297],[1615768378000,288],[1615764777000,279],[1615761177000,271],[1615757576000,276],[1615753976000,276],[1615750376000,280],[1615746775000,275],[1615743174000,275],[1615739573000,276],[1615735973000,280],[1615732372000,288],[1615728772000,289],[1615725171000,291],[1615721571000,289],[1615717971000,286],[1615714370000,284],[1615710770000,287],[1615707169000,282],[1615703568000,284],[1615699967000,283],[1615696367000,281],[1615692766000,272],[1615689166000,270],[1615685565000,270],[1615681965000,272],[1615678364000,273],[1615674763000,271],[1615671163000,273],[1615667563000,275],[1615663962000,272],[1615660361000,272],[1615656760000,272],[1615653159000,265],[1615649559000,265],[1615645958000,256],[1615642358000,257],[1615638757000,251],[1615635156000,253],[1615631556000,248],[1615627955000,253],[1615624354000,251],[1615620754000,253],[1615617153000,251],[1615613552000,255],[1615609952000,257],[1615606351000,257],[1615602751000,258],[1615599150000,259],[1615595550000,259],[1615591949000,257],[1615588348000,250],[1615584747000,242],[1615581146000,250],[1615577545000,248],[1615573945000,243],[1615570344000,239],[1615566743000,237],[1615563143000,230],[1615559542000,230],[1615555942000,234],[1615552341000,230],[1615548741000,227],[1615545140000,228],[1615541539000,224],[1615537938000,228],[1615534337000,230],[1615530736000,235],[1615527135000,235],[1615523534000,230],[1615519933000,237],[1615516333000,235],[1615512732000,236],[1615509132000,232],[1615505530000,226],[1615501929000,226],[1615498327000,223],[1615494726000,217],[1615491124000,209],[1615487524000,208],[1615483923000,212],[1615480322000,213],[1615476721000,216],[1615473121000,213],[1615469520000,215],[1615465919000,213],[1615462317000,216],[1615458715000,207],[1615455114000,199],[1615451511000,192],[1615447910000,185],[1615444309000,180],[1615440708000,176],[1615437107000,175],[1615433507000,163],[1615429906000,154],[1615426305000,145],[1615422685000,135],[1615419062000,133],[1615415460000,124],[1615411852000,120],[1615408244000,113],[1615404641000,104],[1615401040000,100],[1615397439000,93],[1615393838000,79],[1615390238000,71],[1615386637000,63],[1615383036000,40],[1615379436000,22],[1615378881000,14]]},{"name":"openethereum","color":"#18b37e","data":[[1616484862000,73],[1616481262000,70],[1616477661000,69],[1616474061000,73],[1616470461000,70],[1616466860000,68],[1616463260000,68],[1616459660000,72],[1616456059000,71],[1616452459000,69],[1616448858000,67],[1616445258000,68],[1616441658000,70],[1616438057000,69],[1616434457000,67],[1616430856000,67],[1616427256000,66],[1616423656000,65],[1616420055000,67],[1616416455000,64],[1616412854000,62],[1616409254000,62],[1616405654000,60],[1616402053000,63],[1616398453000,65],[1616394852000,65],[1616391252000,63],[1616387652000,62],[1616384051000,63],[1616380451000,70],[1616376851000,68],[1616373250000,65],[1616369650000,66],[1616366049000,67],[1616362449000,68],[1616358849000,62],[1616355248000,63],[1616351648000,64],[1616348048000,62],[1616344447000,66],[1616340847000,67],[1616337246000,70],[1616333646000,69],[1616330046000,69],[1616326445000,67],[1616322845000,68],[1616319244000,71],[1616315644000,71],[1616312044000,68],[1616308443000,69],[1616304843000,69],[1616301242000,70],[1616297642000,66],[1616294042000,66],[1616290441000,70],[1616286841000,69],[1616283240000,66],[1616279640000,63],[1616276039000,65],[1616272439000,64],[1616268838000,58],[1616265238000,54],[1616261638000,53],[1616258037000,51],[1616254437000,49],[1616250836000,52],[1616247236000,51],[1616243636000,51],[1616240035000,51],[1616236435000,48],[1616232834000,47],[1616229234000,48],[1616225634000,49],[1616222033000,48],[1616218433000,48],[1616214832000,46],[1616211232000,46],[1616207631000,48],[1616204031000,50],[1616200430000,51],[1616196830000,52],[1616193230000,51],[1616189629000,53],[1616186029000,53],[1616182428000,54],[1616178828000,52],[1616175227000,50],[1616171627000,52],[1616168027000,51],[1616164426000,49],[1616160826000,50],[1616157225000,51],[1616153625000,50],[1616150025000,50],[1616146424000,49],[1616142824000,50],[1616139223000,49],[1616135623000,50],[1616132023000,49],[1616128422000,47],[1616124822000,47],[1616121221000,47],[1616117621000,47],[1616114021000,48],[1616110420000,47],[1616106820000,51],[1616103219000,51],[1616099619000,51],[1616096019000,53],[1616092418000,54],[1616088818000,56],[1616085217000,51],[1616081617000,52],[1616078016000,53],[1616074416000,54],[1616070816000,55],[1616067215000,55],[1616063615000,55],[1616060014000,56],[1616056414000,56],[1616052813000,56],[1616049213000,57],[1616045613000,57],[1616042012000,58],[1616038412000,58],[1616034811000,55],[1616031211000,51],[1616027611000,53],[1616024010000,54],[1616020410000,53],[1616016809000,50],[1616013208000,49],[1616009608000,47],[1616006008000,47],[1616002407000,45],[1615998807000,45],[1615995206000,44],[1615991606000,44],[1615988005000,44],[1615984405000,43],[1615980805000,42],[1615977204000,41],[1615973604000,46],[1615970004000,47],[1615966403000,47],[1615962803000,47],[1615959202000,47],[1615955602000,48],[1615952001000,51],[1615948401000,52],[1615944801000,52],[1615941200000,50],[1615937600000,52],[1615933999000,54],[1615930399000,56],[1615926799000,54],[1615923198000,55],[1615919598000,58],[1615915997000,60],[1615912397000,59],[1615908796000,57],[1615905196000,54],[1615901595000,53],[1615897995000,54],[1615894394000,54],[1615890794000,54],[1615887194000,54],[1615883593000,53],[1615879992000,54],[1615876392000,53],[1615872792000,51],[1615869191000,52],[1615865591000,52],[1615861990000,52],[1615858390000,52],[1615854789000,52],[1615851189000,51],[1615847588000,48],[1615843988000,48],[1615840388000,48],[1615836787000,49],[1615833186000,50],[1615829586000,51],[1615825985000,52],[1615822385000,51],[1615818784000,52],[1615815184000,50],[1615811583000,51],[1615807983000,52],[1615804382000,51],[1615800782000,51],[1615797181000,51],[1615793581000,51],[1615789981000,51],[1615786380000,53],[1615782780000,53],[1615779179000,53],[1615775579000,51],[1615771978000,52],[1615768378000,55],[1615764777000,53],[1615761177000,52],[1615757576000,50],[1615753976000,51],[1615750376000,49],[1615746775000,51],[1615743174000,51],[1615739573000,50],[1615735973000,50],[1615732372000,49],[1615728772000,48],[1615725171000,48],[1615721571000,49],[1615717971000,50],[1615714370000,48],[1615710770000,50],[1615707169000,52],[1615703568000,54],[1615699967000,53],[1615696367000,53],[1615692766000,53],[1615689166000,57],[1615685565000,56],[1615681965000,58],[1615678364000,57],[1615674763000,59],[1615671163000,61],[1615667563000,61],[1615663962000,63],[1615660361000,62],[1615656760000,63],[1615653159000,64],[1615649559000,64],[1615645958000,65],[1615642358000,65],[1615638757000,67],[1615635156000,65],[1615631556000,65],[1615627955000,63],[1615624354000,64],[1615620754000,61],[1615617153000,61],[1615613552000,62],[1615609952000,62],[1615606351000,63],[1615602751000,64],[1615599150000,62],[1615595550000,61],[1615591949000,62],[1615588348000,59],[1615584747000,59],[1615581146000,58],[1615577545000,56],[1615573945000,56],[1615570344000,54],[1615566743000,56],[1615563143000,54],[1615559542000,55],[1615555942000,55],[1615552341000,54],[1615548741000,53],[1615545140000,49],[1615541539000,49],[1615537938000,48],[1615534337000,44],[1615530736000,48],[1615527135000,48],[1615523534000,45],[1615519933000,42],[1615516333000,31],[1615512732000,28],[1615509132000,29],[1615505530000,28],[1615501929000,28],[1615498327000,29],[1615494726000,28],[1615491124000,27],[1615487524000,29],[1615483923000,28],[1615480322000,26],[1615476721000,28],[1615473121000,28],[1615469520000,28],[1615465919000,30],[1615462317000,30],[1615458715000,29],[1615455114000,28],[1615451511000,28],[1615447910000,28],[1615444309000,25],[1615440708000,25],[1615437107000,23],[1615433507000,22],[1615429906000,21],[1615426305000,17],[1615422685000,14],[1615419062000,12],[1615415460000,12],[1615411852000,11],[1615408244000,11],[1615404641000,10],[1615401040000,8],[1615397439000,8],[1615393838000,8],[1615390238000,8],[1615386637000,8],[1615383036000,6],[1615379436000,1]]},{"name":"nethermind","color":"#8b6cff","data":[[1616484862000,20],[1616481262000,19],[1616477661000,19],[1616474061000,19],[1616470461000,19],[1616466860000,18],[1616463260000,19],[1616459660000,20],[1616456059000,20],[1616452459000,20],[1616448858000,20],[1616445258000,19],[1616441658000,19],[1616438057000,19],[1616434457000,19],[1616430856000,19],[1616427256000,20],[1616423656000,20],[1616420055000,20],[1616416455000,19],[1616412854000,19],[1616409254000,19],[1616405654000,19],[1616402053000,20],[1616398453000,19],[1616394852000,19],[1616391252000,19],[1616387652000,20],[1616384051000,20],[1616380451000,20],[1616376851000,20],[1616373250000,20],[1616369650000,21],[1616366049000,21],[1616362449000,20],[1616358849000,20],[1616355248000,20],[1616351648000,20],[1616348048000,20],[1616344447000,20],[1616340847000,20],[1616337246000,20],[1616333646000,20],[1616330046000,19],[1616326445000,19],[1616322845000,19],[1616319244000,19],[1616315644000,19],[1616312044000,19],[1616308443000,19],[1616304843000,19],[1616301242000,19],[1616297642000,18],[1616294042000,18],[1616290441000,18],[1616286841000,18],[1616283240000,19],[1616279640000,18],[1616276039000,17],[1616272439000,18],[1616268838000,18],[1616265238000,17],[1616261638000,17],[1616258037000,17],[1616254437000,16],[1616250836000,17],[1616247236000,17],[1616243636000,18],[1616240035000,17],[1616236435000,17],[1616232834000,17],[1616229234000,17],[1616225634000,16],[1616222033000,16],[1616218433000,16],[1616214832000,16],[1616211232000,16],[1616207631000,16],[1616204031000,17],[1616200430000,19],[1616196830000,18],[1616193230000,18],[1616189629000,18],[1616186029000,18],[1616182428000,19],[1616178828000,19],[1616175227000,19],[1616171627000,18],[1616168027000,18],[1616164426000,16],[1616160826000,15],[1616157225000,15],[1616153625000,15],[1616150025000,15],[1616146424000,15],[1616142824000,15],[1616139223000,15],[1616135623000,15],[1616132023000,15],[1616128422000,15],[1616124822000,14],[1616121221000,14],[1616117621000,13],[1616114021000,14],[1616110420000,14],[1616106820000,14],[1616103219000,14],[1616099619000,14],[1616096019000,14],[1616092418000,13],[1616088818000,13],[1616085217000,13],[1616081617000,12],[1616078016000,11],[1616074416000,11],[1616070816000,13],[1616067215000,13],[1616063615000,14],[1616060014000,14],[1616056414000,13],[1616052813000,12],[1616049213000,12],[1616045613000,12],[1616042012000,12],[1616038412000,12],[1616034811000,12],[1616031211000,12],[1616027611000,13],[1616024010000,13],[1616020410000,13],[1616016809000,13],[1616013208000,13],[1616009608000,13],[1616006008000,12],[1616002407000,11],[1615998807000,13],[1615995206000,13],[1615991606000,13],[1615988005000,13],[1615984405000,13],[1615980805000,14],[1615977204000,14],[1615973604000,13],[1615970004000,13],[1615966403000,13],[1615962803000,13],[1615959202000,14],[1615955602000,14],[1615952001000,14],[1615948401000,13],[1615944801000,12],[1615941200000,12],[1615937600000,12],[1615933999000,11],[1615930399000,12],[1615926799000,12],[1615923198000,12],[1615919598000,12],[1615915997000,12],[1615912397000,11],[1615908796000,11],[1615905196000,11],[1615901595000,12],[1615897995000,11],[1615894394000,11],[1615890794000,11],[1615887194000,12],[1615883593000,11],[1615879992000,11],[1615876392000,11],[1615872792000,11],[1615869191000,10],[1615865591000,10],[1615861990000,10],[1615858390000,10],[1615854789000,9],[1615851189000,8],[1615847588000,8],[1615843988000,8],[1615840388000,8],[1615836787000,8],[1615833186000,8],[1615829586000,8],[1615825985000,8],[1615822385000,8],[1615818784000,8],[1615815184000,8],[1615811583000,8],[1615807983000,8],[1615804382000,8],[1615800782000,7],[1615797181000,7],[1615793581000,7],[1615789981000,8],[1615786380000,8],[1615782780000,8],[1615779179000,7],[1615775579000,7],[1615771978000,7],[1615768378000,7],[1615764777000,7],[1615761177000,7],[1615757576000,7],[1615753976000,7],[1615750376000,7],[1615746775000,7],[1615743174000,6],[1615739573000,6],[1615735973000,7],[1615732372000,6],[1615728772000,6],[1615725171000,6],[1615721571000,6],[1615717971000,6],[1615714370000,6],[1615710770000,6],[1615707169000,6],[1615703568000,6],[1615699967000,5],[1615696367000,3],[1615692766000,3],[1615689166000,3],[1615685565000,3],[1615681965000,3],[1615678364000,3],[1615674763000,3],[1615671163000,3],[1615667563000,2],[1615663962000,3],[1615660361000,3],[1615656760000,2],[1615653159000,2],[1615649559000,3],[1615645958000,3],[1615642358000,3],[1615638757000,3],[1615635156000,3],[1615631556000,3],[1615627955000,3],[1615624354000,3],[1615620754000,3],[1615617153000,3],[1615613552000,3],[1615609952000,3],[1615606351000,3],[1615602751000,3],[1615599150000,3],[1615595550000,3],[1615591949000,3],[1615588348000,3],[1615584747000,3],[1615581146000,3],[1615577545000,2],[1615573945000,2],[1615570344000,2],[1615566743000,2],[1615563143000,2],[1615559542000,2],[1615555942000,2],[1615552341000,2],[1615548741000,2],[1615545140000,2],[1615541539000,2],[1615537938000,2],[1615534337000,2],[1615530736000,2],[1615527135000,2],[1615523534000,2],[1615519933000,2],[1615516333000,2],[1615512732000,3],[1615509132000,3],[1615505530000,3],[1615501929000,3],[1615498327000,3],[1615494726000,3],[1615491124000,3],[1615487524000,3],[1615483923000,3],[1615480322000,3],[1615476721000,3],[1615473121000,3],[1615469520000,3],[1615465919000,3],[1615462317000,3],[1615458715000,3],[1615455114000,4],[1615451511000,4],[1615447910000,4],[1615444309000,4],[1615440708000,4],[1615437107000,4],[1615433507000,4],[1615429906000,4],[1615426305000,4],[1615422685000,4],[1615419062000,4],[1615415460000,4],[1615411852000,4],[1615408244000,4],[1615404641000,4],[1615401040000,4],[1615397439000,4],[1615393838000,4],[1615390238000,4],[1615386637000,4],[1615383036000,4],[1615379436000,4]]},{"name":"besu","color":"#e1d420","data":[[1616484862000,1],[1616481262000,1],[1616477661000,1],[1616474061000,1],[1616470461000,1],[1616466860000,1],[1616405654000,1],[1616402053000,2],[1616398453000,2],[1616394852000,2],[1616391252000,2],[1616387652000,2],[1616384051000,2],[1616380451000,2],[1616376851000,3],[1616373250000,3],[1616369650000,3],[1616366049000,3],[1616362449000,3],[1616358849000,3],[1616355248000,3],[1616351648000,3],[1616348048000,3],[1616344447000,3],[1616340847000,3],[1616337246000,3],[1616333646000,3],[1616330046000,3],[1616326445000,4],[1616322845000,4],[1616319244000,4],[1616315644000,4],[1616312044000,4],[1616308443000,4],[1616304843000,4],[1616301242000,4],[1616297642000,4],[1616294042000,4],[1616290441000,3],[1616286841000,3],[1616283240000,3],[1616279640000,3],[1616276039000,3],[1616272439000,3],[1616268838000,3],[1616265238000,2],[1616261638000,2],[1616258037000,2],[1616254437000,2],[1616250836000,2],[1616247236000,3],[1616243636000,3],[1616240035000,2],[1616236435000,2],[1616232834000,2],[1616229234000,1],[1616225634000,1],[1616222033000,1],[1616218433000,2],[1616214832000,2],[1616211232000,2],[1616207631000,2],[1616204031000,2],[1616200430000,2],[1616196830000,2],[1616193230000,2],[1616189629000,2],[1616186029000,2],[1616182428000,3],[1616178828000,3],[1616175227000,3],[1616171627000,3],[1616168027000,3],[1616164426000,3],[1616160826000,2],[1616157225000,2],[1616153625000,2],[1616150025000,2],[1616146424000,3],[1616142824000,3],[1616139223000,3],[1616135623000,3],[1616132023000,2],[1616128422000,3],[1616124822000,3],[1616121221000,3],[1616117621000,3],[1616114021000,3],[1616110420000,3],[1616106820000,3],[1616103219000,3],[1616099619000,3],[1616096019000,3],[1616092418000,3],[1616088818000,2],[1616085217000,2],[1616081617000,2],[1616078016000,2],[1616074416000,2],[1616070816000,2],[1616067215000,2],[1616063615000,2],[1616060014000,1],[1616056414000,1],[1616052813000,1],[1616049213000,1],[1616045613000,1],[1616031211000,1],[1616027611000,2],[1616024010000,2],[1616020410000,2],[1616016809000,2],[1616013208000,2],[1616009608000,2],[1616006008000,2],[1616002407000,2],[1615998807000,2],[1615995206000,2],[1615991606000,2],[1615988005000,2],[1615984405000,2],[1615980805000,2],[1615977204000,2],[1615973604000,2],[1615970004000,2],[1615966403000,2],[1615962803000,2],[1615959202000,2],[1615955602000,2],[1615952001000,2],[1615948401000,2],[1615944801000,1],[1615923198000,1],[1615919598000,2],[1615915997000,2],[1615912397000,2],[1615908796000,2],[1615905196000,2],[1615901595000,2],[1615897995000,2],[1615894394000,2],[1615890794000,2],[1615887194000,2],[1615883593000,2],[1615879992000,2],[1615876392000,2],[1615872792000,2],[1615869191000,2],[1615865591000,2],[1615861990000,2],[1615858390000,3],[1615854789000,3],[1615851189000,3],[1615847588000,3],[1615843988000,3],[1615840388000,3],[1615836787000,2],[1615833186000,2],[1615829586000,2],[1615825985000,2],[1615822385000,1],[1615818784000,1],[1615815184000,1],[1615811583000,1],[1615807983000,1],[1615804382000,1],[1615800782000,1],[1615797181000,1],[1615793581000,1],[1615789981000,2],[1615786380000,2],[1615782780000,2],[1615779179000,2],[1615775579000,2],[1615771978000,2],[1615768378000,1],[1615764777000,1],[1615761177000,2],[1615757576000,2],[1615753976000,2],[1615750376000,2],[1615746775000,2],[1615743174000,2],[1615739573000,2],[1615735973000,2],[1615732372000,2],[1615728772000,2],[1615725171000,2],[1615721571000,2],[1615717971000,2],[1615714370000,2],[1615710770000,2],[1615707169000,2],[1615703568000,1],[1615699967000,1],[1615696367000,1],[1615692766000,1],[1615689166000,1],[1615685565000,1],[1615681965000,1],[1615678364000,1],[1615617153000,1],[1615613552000,1],[1615609952000,1],[1615606351000,1],[1615602751000,1],[1615599150000,1],[1615595550000,1],[1615591949000,1],[1615588348000,1],[1615584747000,1],[1615581146000,1],[1615577545000,1],[1615573945000,1],[1615570344000,1],[1615566743000,1],[1615563143000,1],[1615559542000,1],[1615555942000,1],[1615552341000,1],[1615548741000,1],[1615545140000,1],[1615541539000,1],[1615537938000,1],[1615534337000,1],[1615530736000,2],[1615527135000,3],[1615523534000,3],[1615519933000,3],[1615516333000,3],[1615512732000,3],[1615509132000,3],[1615505530000,3],[1615501929000,3],[1615498327000,3],[1615494726000,2],[1615491124000,2],[1615487524000,2],[1615483923000,2],[1615480322000,2],[1615476721000,2],[1615473121000,2],[1615469520000,2],[1615465919000,2],[1615462317000,2],[1615458715000,2],[1615455114000,3],[1615451511000,3],[1615447910000,2],[1615444309000,2],[1615440708000,2],[1615437107000,2],[1615433507000,2],[1615429906000,3],[1615426305000,3],[1615422685000,4],[1615419062000,4],[1615415460000,4],[1615411852000,4],[1615408244000,4],[1615404641000,4],[1615401040000,4],[1615397439000,4],[1615393838000,4],[1615390238000,4],[1615386637000,4],[1615383036000,4],[1615379436000,4]]}]
+if (historyDataAbs) {
+  Highcharts.chart("historyChart", {
+    chart: {
+      backgroundColor: 'transparent',
+      zoomType: 'x',
+      animation: false,
+      type: 'area'
+    },
+    credits: {
+      href: "https://ethernodes.org",
+      text: "Chart provided by ethernodes.org"
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime',
+      tickInterval: 3600 * 1000
+    },
+    yAxis: {
+      title: {
+        text: 'Update ready node count'
+      }
+    },
+    legend: {
+      enabled: true,
+      itemStyle: {
+        color: "rgb(207, 210, 218)"
+      }
+    },
+    tooltip: {
+      xDateFormat: '%Y-%m-%d %H:%M',
+    },
+    plotOptions: {
+      area: {
+        stacking: 'normal',
+        lineColor: '#666666',
+        lineWidth: 1,
+        marker: {
+          lineWidth: 1,
+          lineColor: '#666666'
+        }
+      }
+    },
+    series: historyDataAbs
+  });
+}
+
+var historyDataRel = [{"name":"Not Ready","color":"#1997c6","data":[[1615378881000,2597],[1615379436000,2583],[1615383036000,2552],[1615386637000,2519],[1615390238000,2497],[1615393838000,2449],[1615397439000,2404],[1615401040000,2380],[1615404641000,2357],[1615408244000,2318],[1615411852000,2243],[1615415460000,2214],[1615419062000,2165],[1615422685000,2098],[1615426305000,2050],[1615429906000,1985],[1615433507000,1947],[1615437107000,1895],[1615440708000,1839],[1615444309000,1764],[1615447910000,1666],[1615451511000,1568],[1615455114000,1442],[1615458715000,1307],[1615462317000,1188],[1615465919000,1201],[1615469520000,1194],[1615473121000,1183],[1615476721000,1178],[1615480322000,1184],[1615483923000,1196],[1615487524000,1183],[1615491124000,1177],[1615494726000,1191],[1615498327000,1185],[1615501929000,1190],[1615505530000,1195],[1615509132000,1212],[1615512732000,1217],[1615516333000,1216],[1615519933000,1206],[1615523534000,1201],[1615527135000,1199],[1615530736000,1200],[1615534337000,1199],[1615537938000,1213],[1615541539000,1214],[1615545140000,1220],[1615548741000,1228],[1615552341000,1222],[1615555942000,1224],[1615559542000,1233],[1615563143000,1236],[1615566743000,1233],[1615570344000,1213],[1615573945000,1213],[1615577545000,1219],[1615581146000,1207],[1615584747000,1206],[1615588348000,1202],[1615591949000,1202],[1615595550000,1201],[1615599150000,1190],[1615602751000,1188],[1615606351000,1171],[1615609952000,1161],[1615613552000,1161],[1615617153000,1151],[1615620754000,1138],[1615624354000,1129],[1615627955000,1128],[1615631556000,1118],[1615635156000,1113],[1615638757000,1115],[1615642358000,1108],[1615645958000,1100],[1615649559000,1110],[1615653159000,1102],[1615656760000,1109],[1615660361000,1105],[1615663962000,1104],[1615667563000,1101],[1615671163000,1111],[1615674763000,1118],[1615678364000,1121],[1615681965000,1111],[1615685565000,1111],[1615689166000,1109],[1615692766000,1115],[1615696367000,1113],[1615699967000,1107],[1615703568000,1115],[1615707169000,1124],[1615710770000,1120],[1615714370000,1108],[1615717971000,1097],[1615721571000,1098],[1615725171000,1110],[1615728772000,1108],[1615732372000,1119],[1615735973000,1103],[1615739573000,1103],[1615743174000,1093],[1615746775000,1097],[1615750376000,1113],[1615753976000,1114],[1615757576000,1118],[1615761177000,1121],[1615764777000,1122],[1615768378000,1128],[1615771978000,1126],[1615775579000,1129],[1615779179000,1130],[1615782780000,1131],[1615786380000,1127],[1615789981000,1133],[1615793581000,1132],[1615797181000,1135],[1615800782000,1147],[1615804382000,1150],[1615807983000,1151],[1615811583000,1146],[1615815184000,1143],[1615818784000,1159],[1615822385000,1175],[1615825985000,1174],[1615829586000,1181],[1615833186000,1189],[1615836787000,1186],[1615840388000,1188],[1615843988000,1191],[1615847588000,1195],[1615851189000,1196],[1615854789000,1200],[1615858390000,1209],[1615861990000,1203],[1615865591000,1183],[1615869191000,1170],[1615872792000,1159],[1615876392000,1161],[1615879992000,1155],[1615883593000,1143],[1615887194000,1137],[1615890794000,1142],[1615894394000,1132],[1615897995000,1129],[1615901595000,1124],[1615905196000,1109],[1615908796000,1097],[1615912397000,1094],[1615915997000,1081],[1615919598000,1083],[1615923198000,1079],[1615926799000,1072],[1615930399000,1073],[1615933999000,1069],[1615937600000,1054],[1615941200000,1054],[1615944801000,1037],[1615948401000,1030],[1615952001000,1032],[1615955602000,1030],[1615959202000,1043],[1615962803000,1046],[1615966403000,1036],[1615970004000,1048],[1615973604000,1060],[1615977204000,1053],[1615980805000,1056],[1615984405000,1060],[1615988005000,1076],[1615991606000,1088],[1615995206000,1086],[1615998807000,1095],[1616002407000,1109],[1616006008000,1098],[1616009608000,1099],[1616013208000,1089],[1616016809000,1087],[1616020410000,1080],[1616024010000,1077],[1616027611000,1072],[1616031211000,1077],[1616034811000,1081],[1616038412000,1070],[1616042012000,1073],[1616045613000,1074],[1616049213000,1075],[1616052813000,1075],[1616056414000,1075],[1616060014000,1074],[1616063615000,1075],[1616067215000,1068],[1616070816000,1058],[1616074416000,1044],[1616078016000,1040],[1616081617000,1043],[1616085217000,1041],[1616088818000,1038],[1616092418000,1048],[1616096019000,1054],[1616099619000,1038],[1616103219000,1040],[1616106820000,1037],[1616110420000,1041],[1616114021000,1056],[1616117621000,1069],[1616121221000,1084],[1616124822000,1092],[1616128422000,1108],[1616132023000,1111],[1616135623000,1118],[1616139223000,1124],[1616142824000,1120],[1616146424000,1114],[1616150025000,1111],[1616153625000,1117],[1616157225000,1132],[1616160826000,1131],[1616164426000,1129],[1616168027000,1116],[1616171627000,1111],[1616175227000,1112],[1616178828000,1112],[1616182428000,1108],[1616186029000,1124],[1616189629000,1129],[1616193230000,1131],[1616196830000,1135],[1616200430000,1128],[1616204031000,1114],[1616207631000,1104],[1616211232000,1110],[1616214832000,1100],[1616218433000,1097],[1616222033000,1103],[1616225634000,1100],[1616229234000,1101],[1616232834000,1090],[1616236435000,1106],[1616240035000,1113],[1616243636000,1109],[1616247236000,1121],[1616250836000,1118],[1616254437000,1118],[1616258037000,1114],[1616261638000,1121],[1616265238000,1113],[1616268838000,1110],[1616272439000,1102],[1616276039000,1098],[1616279640000,1092],[1616283240000,1080],[1616286841000,1087],[1616290441000,1082],[1616294042000,1075],[1616297642000,1079],[1616301242000,1081],[1616304843000,1083],[1616308443000,1074],[1616312044000,1064],[1616315644000,1064],[1616319244000,1059],[1616322845000,1047],[1616326445000,1025],[1616330046000,1021],[1616333646000,1002],[1616337246000,1001],[1616340847000,1007],[1616344447000,998],[1616348048000,997],[1616351648000,1007],[1616355248000,1004],[1616358849000,1004],[1616362449000,1005],[1616366049000,1007],[1616369650000,998],[1616373250000,984],[1616376851000,983],[1616380451000,985],[1616384051000,984],[1616387652000,974],[1616391252000,974],[1616394852000,969],[1616398453000,975],[1616402053000,968],[1616405654000,965],[1616409254000,960],[1616412854000,972],[1616416455000,972],[1616420055000,984],[1616423656000,990],[1616427256000,988],[1616430856000,985],[1616434457000,998],[1616438057000,1006],[1616441658000,1018],[1616445258000,1028],[1616448858000,1036],[1616452459000,1034],[1616456059000,1046],[1616459660000,1049],[1616463260000,1051],[1616466860000,1053],[1616470461000,1049],[1616474061000,1054],[1616477661000,1038],[1616481262000,1039],[1616484862000,1049]]},{"name":"Ready","color":"#18b37e","data":[[1615378881000,14],[1615379436000,31],[1615383036000,54],[1615386637000,79],[1615390238000,87],[1615393838000,95],[1615397439000,109],[1615401040000,116],[1615404641000,122],[1615408244000,132],[1615411852000,139],[1615415460000,144],[1615419062000,153],[1615422685000,157],[1615426305000,169],[1615429906000,182],[1615433507000,191],[1615437107000,204],[1615440708000,207],[1615444309000,211],[1615447910000,219],[1615451511000,227],[1615455114000,234],[1615458715000,241],[1615462317000,251],[1615465919000,248],[1615469520000,248],[1615473121000,246],[1615476721000,249],[1615480322000,244],[1615483923000,245],[1615487524000,242],[1615491124000,241],[1615494726000,250],[1615498327000,258],[1615501929000,260],[1615505530000,260],[1615509132000,267],[1615512732000,270],[1615516333000,271],[1615519933000,284],[1615523534000,280],[1615527135000,288],[1615530736000,287],[1615534337000,277],[1615537938000,279],[1615541539000,276],[1615545140000,280],[1615548741000,283],[1615552341000,287],[1615555942000,292],[1615559542000,288],[1615563143000,287],[1615566743000,296],[1615570344000,296],[1615573945000,302],[1615577545000,307],[1615581146000,312],[1615584747000,305],[1615588348000,313],[1615591949000,323],[1615595550000,324],[1615599150000,325],[1615602751000,326],[1615606351000,324],[1615609952000,323],[1615613552000,321],[1615617153000,316],[1615620754000,317],[1615624354000,318],[1615627955000,319],[1615631556000,316],[1615635156000,321],[1615638757000,321],[1615642358000,325],[1615645958000,324],[1615649559000,332],[1615653159000,331],[1615656760000,337],[1615660361000,337],[1615663962000,338],[1615667563000,338],[1615671163000,337],[1615674763000,333],[1615678364000,334],[1615681965000,334],[1615685565000,330],[1615689166000,331],[1615692766000,329],[1615696367000,338],[1615699967000,342],[1615703568000,345],[1615707169000,342],[1615710770000,345],[1615714370000,340],[1615717971000,344],[1615721571000,346],[1615725171000,347],[1615728772000,345],[1615732372000,345],[1615735973000,339],[1615739573000,334],[1615743174000,334],[1615746775000,335],[1615750376000,338],[1615753976000,336],[1615757576000,335],[1615761177000,332],[1615764777000,340],[1615768378000,351],[1615771978000,358],[1615775579000,360],[1615779179000,372],[1615782780000,377],[1615786380000,382],[1615789981000,382],[1615793581000,391],[1615797181000,399],[1615800782000,406],[1615804382000,413],[1615807983000,428],[1615811583000,432],[1615815184000,437],[1615818784000,448],[1615822385000,449],[1615825985000,456],[1615829586000,453],[1615833186000,452],[1615836787000,451],[1615840388000,457],[1615843988000,467],[1615847588000,467],[1615851189000,480],[1615854789000,488],[1615858390000,498],[1615861990000,502],[1615865591000,505],[1615869191000,502],[1615872792000,506],[1615876392000,513],[1615879992000,510],[1615883593000,494],[1615887194000,493],[1615890794000,494],[1615894394000,496],[1615897995000,502],[1615901595000,494],[1615905196000,487],[1615908796000,484],[1615912397000,483],[1615915997000,489],[1615919598000,488],[1615923198000,485],[1615926799000,487],[1615930399000,490],[1615933999000,485],[1615937600000,469],[1615941200000,461],[1615944801000,454],[1615948401000,454],[1615952001000,460],[1615955602000,467],[1615959202000,469],[1615962803000,472],[1615966403000,473],[1615970004000,470],[1615973604000,475],[1615977204000,474],[1615980805000,478],[1615984405000,472],[1615988005000,470],[1615991606000,464],[1615995206000,470],[1615998807000,475],[1616002407000,477],[1616006008000,484],[1616009608000,483],[1616013208000,480],[1616016809000,483],[1616020410000,490],[1616024010000,497],[1616027611000,500],[1616031211000,499],[1616034811000,503],[1616038412000,504],[1616042012000,506],[1616045613000,503],[1616049213000,504],[1616052813000,503],[1616056414000,508],[1616060014000,506],[1616063615000,504],[1616067215000,500],[1616070816000,502],[1616074416000,509],[1616078016000,507],[1616081617000,511],[1616085217000,516],[1616088818000,522],[1616092418000,521],[1616096019000,529],[1616099619000,533],[1616103219000,536],[1616106820000,544],[1616110420000,537],[1616114021000,544],[1616117621000,543],[1616121221000,549],[1616124822000,550],[1616128422000,552],[1616132023000,558],[1616135623000,565],[1616139223000,562],[1616142824000,561],[1616146424000,561],[1616150025000,569],[1616153625000,569],[1616157225000,567],[1616160826000,565],[1616164426000,567],[1616168027000,564],[1616171627000,561],[1616175227000,554],[1616178828000,561],[1616182428000,562],[1616186029000,557],[1616189629000,556],[1616193230000,552],[1616196830000,550],[1616200430000,549],[1616204031000,541],[1616207631000,532],[1616211232000,518],[1616214832000,520],[1616218433000,515],[1616222033000,514],[1616225634000,523],[1616229234000,530],[1616232834000,528],[1616236435000,530],[1616240035000,525],[1616243636000,524],[1616247236000,515],[1616250836000,515],[1616254437000,510],[1616258037000,517],[1616261638000,524],[1616265238000,519],[1616268838000,515],[1616272439000,526],[1616276039000,530],[1616279640000,530],[1616283240000,530],[1616286841000,533],[1616290441000,534],[1616294042000,532],[1616297642000,533],[1616301242000,540],[1616304843000,541],[1616308443000,540],[1616312044000,536],[1616315644000,536],[1616319244000,530],[1616322845000,529],[1616326445000,531],[1616330046000,536],[1616333646000,531],[1616337246000,530],[1616340847000,527],[1616344447000,531],[1616348048000,528],[1616351648000,541],[1616355248000,540],[1616358849000,537],[1616362449000,542],[1616366049000,545],[1616369650000,549],[1616373250000,544],[1616376851000,552],[1616380451000,559],[1616384051000,555],[1616387652000,550],[1616391252000,551],[1616394852000,547],[1616398453000,560],[1616402053000,559],[1616405654000,564],[1616409254000,559],[1616412854000,563],[1616416455000,552],[1616420055000,561],[1616423656000,556],[1616427256000,553],[1616430856000,559],[1616434457000,560],[1616438057000,557],[1616441658000,564],[1616445258000,565],[1616448858000,570],[1616452459000,573],[1616456059000,577],[1616459660000,571],[1616463260000,564],[1616466860000,559],[1616470461000,559],[1616474061000,561],[1616477661000,576],[1616481262000,574],[1616484862000,582]]}]
+
+if (historyDataRel) {
+  Highcharts.chart("historyRelChart", {
+    chart: {
+      backgroundColor: 'transparent',
+      zoomType: 'x',
+      animation: false,
+      type: 'area'
+    },
+    credits: {
+      href: "https://ethernodes.org",
+      text: "Chart provided by ethernodes.org"
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime',
+      tickInterval: 3600 * 1000
+    },
+    yAxis: {
+      title: {
+        text: '%'
+      }
+    },
+    legend: {
+      enabled: true,
+      itemStyle: {
+        color: "rgb(207, 210, 218)"
+      }
+    },
+    tooltip: {
+      xDateFormat: '%Y-%m-%d %H:%M',
+      pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b> ({point.percentage:.1f}%)<br/>'
+    },
+    plotOptions: {
+      area: {
+        stacking: 'percent',
+        lineColor: '#666666',
+        lineWidth: 1,
+        marker: {
+          lineWidth: 1,
+          lineColor: '#666666'
+        }
+      }
+    },
+    series: historyDataRel
+  });
+}</script><script type="d446a2cdc96e424dd399dea9-text/javascript">let anchor = window.location.hash;
+
+if (anchor) {
+    anchor = anchor.replace("#", "")
+    window.location = "/" + anchor
+}
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})</script><script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="d446a2cdc96e424dd399dea9-|49" defer=""></script></body></html>
